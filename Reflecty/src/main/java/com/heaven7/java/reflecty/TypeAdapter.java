@@ -28,6 +28,17 @@ import java.io.IOException;
 public abstract class TypeAdapter {
 
     /**
+     * create type adapter from {@linkplain TypeToken}
+     * @param tt the type token
+     * @param tam the type adapter manager
+     * @param applyVersion the version
+     * @return the type adapter
+     */
+    public static TypeAdapter ofTypeToken(TypeToken<?> tt, ITypeAdapterManager tam, float applyVersion){
+        return $ReflectyTypes.getTypeNode(tt.getType()).getTypeAdapter(tam, applyVersion);
+    }
+
+    /**
      * write the member by the sink.
      * @param sink the out sink
      * @param obj the object
