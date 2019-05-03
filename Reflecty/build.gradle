@@ -1,9 +1,27 @@
 apply plugin: 'java'
+apply plugin: 'com.novoda.bintray-release'
 
 group 'com.heaven7.java.reflecty'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = 1.8
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.novoda:bintray-release:0.4.0'
+    }
+}
+
+allprojects {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+        options.addStringOption('encoding', 'UTF-8')
+    }
+}
 
 repositories {
     jcenter()
