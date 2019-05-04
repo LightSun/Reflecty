@@ -81,7 +81,7 @@ public class TypeToken<T> {
    * Returns the type from super class's type parameter in {@link $Types#canonicalize
    * canonical form}.
    */
-  static Type getSuperclassTypeParameter(Class<?> subclass) {
+  public static Type getSuperclassTypeParameter(Class<?> subclass) {
     Type superclass = subclass.getGenericSuperclass();
     if (superclass instanceof Class) {
       throw new RuntimeException("Missing type parameter.");
@@ -94,7 +94,7 @@ public class TypeToken<T> {
    * added by heaven7
    */
   @SuppressWarnings("unchecked")
-  static <T extends Type> List<T> getSuperclassTypeParameters(Class<?> subclass) {
+  public static <T extends Type> List<T> getSuperclassTypeParameters(Class<?> subclass) {
     Type superclass = subclass.getGenericSuperclass();
     if (superclass instanceof Class) {
       throw new RuntimeException("Missing type parameter.");

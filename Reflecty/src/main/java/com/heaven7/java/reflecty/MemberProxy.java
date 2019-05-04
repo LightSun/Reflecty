@@ -16,7 +16,10 @@
  */
 package com.heaven7.java.reflecty;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * the member proxy for field or method
@@ -37,13 +40,14 @@ public interface MemberProxy {
     byte FLAG_PACKED = 1;
 
     /**
-     * get the property name . which can from field or method
+     * get the property name . which can from field or method. see {@linkplain ReflectyDelegate#getPropertyFromField(Field, Annotation)}
+     * or {@linkplain ReflectyDelegate#getPropertyFromMethod(Method, Annotation)}.
      * @return the property name
      */
     String getPropertyName();
 
     /**
-     * get the property owner
+     * get the member owner
      * @return the owner class
      */
     Class<?> getOwnerClass();
@@ -68,10 +72,12 @@ public interface MemberProxy {
 
     /**
      * get the type adapter
+     * @param <Out> the output type
+     * @param <In> the input type
      * @param delegate the type adapter manager delegate
      * @param applyVersion the version to apply .
      * @return the type adapter
      */
-    TypeAdapter getTypeAdapter(ITypeAdapterManager delegate, float applyVersion);
+    <Out, In>TypeAdapter<Out, In> getTypeAdapter(ITypeAdapterManager<Out, In> delegate, float applyVersion);
 
 }

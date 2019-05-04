@@ -16,11 +16,15 @@
  */
 package com.heaven7.java.reflecty;
 
-/**
+ import java.lang.reflect.Type;
+
+ /**
  * the type adapter manager
+  * @param <Out> the output type, used to write
+  * @param <In> the input type ,used to read
  * @author heaven7
  */
-public interface ITypeAdapterManager {
+public interface ITypeAdapterManager<Out, In> {
 
     /**
      * get the type adapter context
@@ -34,14 +38,29 @@ public interface ITypeAdapterManager {
      * @param applyVersion the expect version
      * @return the type adapter
      */
-    TypeAdapter getTypeAdapter(TypeNode genericNode, float applyVersion);
+    TypeAdapter<Out, In> getTypeAdapter(TypeNode genericNode, float applyVersion);
+
+     /**
+      * register type adapter
+      * @param type the type
+      * @param version the start version of type
+      * @param adapter the type adapter
+      */
+     void registerTypeAdapter(Type type, float version, TypeAdapter<Out, In> adapter);
+
+     /**
+      * register basic type adapter. for basic types. can include un-change type.
+      * @param baseType the basic type
+      * @param adapter the type adapter
+      */
+     void registerBasicTypeAdapter(Class<?> baseType, TypeAdapter<Out, In> adapter);
 
     /**
      * get the base type adapter
      * @param baseType the base type class
      * @return the base {@linkplain TypeAdapter}.
      */
-    TypeAdapter getBaseTypeAdapter(Class<?> baseType);
+    TypeAdapter<Out, In> getBasicTypeAdapter(Class<?> baseType);
 
     /**
      * create collection type adapter
@@ -50,7 +69,7 @@ public interface ITypeAdapterManager {
      * @param componentAdapter the component adapter
      * @return the type adapter
      */
-    TypeAdapter createCollectionTypeAdapter(Class<?> collectionClass, TypeAdapter componentAdapter);
+    TypeAdapter<Out, In> createCollectionTypeAdapter(Class<?> collectionClass, TypeAdapter<Out, In> componentAdapter);
 
     /**
      * create array type adapter
@@ -58,7 +77,7 @@ public interface ITypeAdapterManager {
      * @param componentAdapter the component adapter
      * @return the array type adapter
      */
-    TypeAdapter createArrayTypeAdapter(Class<?> componentClass, TypeAdapter componentAdapter);
+    TypeAdapter<Out, In> createArrayTypeAdapter(Class<?> componentClass, TypeAdapter<Out, In> componentAdapter);
 
     /**
      * create map type adapter
@@ -67,7 +86,7 @@ public interface ITypeAdapterManager {
      * @param valueAdapter the value adapter
      * @return the map type adapter
      */
-    TypeAdapter createMapTypeAdapter(Class<?> mapClazz, TypeAdapter keyAdapter, TypeAdapter valueAdapter);
+    TypeAdapter<Out, In> createMapTypeAdapter(Class<?> mapClazz, TypeAdapter<Out, In> keyAdapter, TypeAdapter<Out, In> valueAdapter);
 
     /**
      * create the object type adapter
@@ -76,5 +95,5 @@ public interface ITypeAdapterManager {
      * @param applyVersion the apply version
      * @return the type adapter
      */
-    TypeAdapter createObjectTypeAdapter(Class<?> objectClazz, float applyVersion);
+    TypeAdapter<Out, In> createObjectTypeAdapter(Class<?> objectClazz, float applyVersion);
 }

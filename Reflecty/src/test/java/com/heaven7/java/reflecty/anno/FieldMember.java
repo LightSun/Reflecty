@@ -30,7 +30,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FieldMember {
 
-    /** the priority of this field. in message
+    /** the property of this field.
      * @return the priority */
-    int prop() default 0;
+    String property() default "";
 }

@@ -17,18 +17,21 @@
 package com.heaven7.java.reflecty;
 
 /**
- * the type node often indicate the parameter types from {@linkplain TypeToken}
+ * the type node often indicate the parameter types from {@linkplain TypeToken}.
+ * this can used well any type of {@linkplain java.lang.reflect.Type}.
  * @author heaven7
  */
 public interface TypeNode {
 
     /**
      * get the type adapter from
+     * @param <Out> the output type
+     * @param <In> the input type
      * @param delegate the type adapter manager delegate
      * @param applyVersion the expect version
      * @return the type adapter
      */
-    TypeAdapter getTypeAdapter(ITypeAdapterManager delegate, float applyVersion);
+    <Out, In>TypeAdapter<Out, In> getTypeAdapter(ITypeAdapterManager<Out, In> delegate, float applyVersion);
 
     /**
      * the hash code of this node

@@ -40,7 +40,7 @@ public abstract class BaseMemberProxy implements MemberProxy {
         return mOwnerClass;
     }
     @Override
-    public final TypeAdapter getTypeAdapter(ITypeAdapterManager meshy, float applyVersion) {
+    public final <Out, In> TypeAdapter<Out, In> getTypeAdapter(ITypeAdapterManager<Out, In> meshy, float applyVersion) {
         return mNode.getTypeAdapter(meshy, applyVersion);
     }
     /**

@@ -16,25 +16,26 @@
  */
 package com.heaven7.java.reflecty;
 
-import okio.BufferedSink;
-import okio.BufferedSource;
-
 import java.io.IOException;
 
 /**
  * the type adapter which used to write and read message members.
+ * @param <Out> the output type, used to write
+ * @param <In> the input type ,used to read
  * @author heaven7
  */
-public abstract class TypeAdapter {
+public abstract class TypeAdapter<Out,In> {
 
     /**
      * create type adapter from {@linkplain TypeToken}
+     * @param <Out> the output type
+     * @param <In> the input type
      * @param tt the type token
      * @param tam the type adapter manager
      * @param applyVersion the version
      * @return the type adapter
      */
-    public static TypeAdapter ofTypeToken(TypeToken<?> tt, ITypeAdapterManager tam, float applyVersion){
+    public static <Out,In> TypeAdapter<Out,In> ofTypeToken(TypeToken<?> tt, ITypeAdapterManager<Out,In> tam, float applyVersion){
         return $ReflectyTypes.getTypeNode(tt.getType()).getTypeAdapter(tam, applyVersion);
     }
 
@@ -45,13 +46,13 @@ public abstract class TypeAdapter {
      * @return the write length as bytes count.
      * @throws IOException if an I/O error occurs
      */
-    public abstract int write(BufferedSink sink, Object obj) throws IOException;
+    public abstract int write(Out sink, Object obj) throws IOException;
     /**
      * read the value from source and set to the object.
      * @param source the input source
      * @throws IOException if an I/O error occurs
      */
-    public abstract Object read(BufferedSource source) throws IOException;
+    public abstract Object read(In source) throws IOException;
 
     /**
      * evaluate the size of target member from object

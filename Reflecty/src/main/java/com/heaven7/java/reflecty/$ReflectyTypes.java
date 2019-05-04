@@ -178,8 +178,8 @@ public final class $ReflectyTypes {
             return Objects.hash(type, varNodes, subType, isArray);
         }
 
-        @SuppressWarnings("unchecked")
-        public TypeAdapter getTypeAdapter(ITypeAdapterManager delegate, float applyVersion) {
+        @Override
+        public <Out, In> TypeAdapter<Out, In> getTypeAdapter(ITypeAdapterManager<Out, In> delegate, float applyVersion) {
             if(isArray){
                 GenericNode subNode = getSubNode(0);
                 return delegate.createArrayTypeAdapter(subNode.getTypeClass(0),
@@ -187,12 +187,12 @@ public final class $ReflectyTypes {
             }
             TypeAdapterContext context = delegate.getTypeAdapterContext();
             if(type != null){
-                TypeAdapter typeAdapter = delegate.getTypeAdapter(this, applyVersion);
+                TypeAdapter<Out, In> typeAdapter = delegate.getTypeAdapter(this, applyVersion);
                 if(typeAdapter != null){
                     return typeAdapter;
                 }
                 //base types
-                TypeAdapter adapter = delegate.getBaseTypeAdapter(type);
+                TypeAdapter<Out, In> adapter = delegate.getBasicTypeAdapter(type);
                 if(adapter != null){
                     return adapter;
                 }
