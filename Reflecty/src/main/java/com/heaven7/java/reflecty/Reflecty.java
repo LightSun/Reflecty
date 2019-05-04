@@ -25,39 +25,39 @@ import java.util.WeakHashMap;
 
 /**
  * the reflecty used to quick reflect field and method members.
- * @param <FS> the fields annotation which is set on class
+ * @param <CD> the annotation which is set on class , often is the class description. can be used for field or method annotation.
  * @param <F> the field annotation which is set on field
  * @param <M> the method annotation which is set on method
  * @param <I> the inherit annotation which can be set on field or method.
  * @author heaven7
  */
-public abstract class Reflecty<FS extends Annotation,F extends Annotation,
+public final class Reflecty<CD extends Annotation,F extends Annotation,
         M extends Annotation, I extends Annotation> {
 
-    private final WeakHashMap<Class<?>, List<MemberProxy>> sCache;
+    private final WeakHashMap<Class<?>, List<MemberProxy>> mCache;
     // share cache for sub class .
-    private final WeakHashMap<Class<?>, List<MemberProxy>> sShareCache;
-    private final ReflectyDelegate<F, M, I> mDelegate;
-    private final Class<FS> mClazzFields;
+    private final WeakHashMap<Class<?>, List<MemberProxy>> mShareCache;
+
+    private final ReflectyDelegate<CD,F, M, I> mDelegate;
+    private final Class<CD> mClazzClass;
     private final Class<F> mClazzField;
     private final Class<M> mClazzMethod;
     private final Class<I> mClazzIherit;
 
     @SuppressWarnings("unchecked")
-    public Reflecty(ReflectyDelegate<F, M, I> mDelegate) {
-        this.mDelegate = mDelegate;
-        List<Class<? extends Annotation>> list = TypeToken.getSuperclassTypeParameters(getClass());
-        this.mClazzFields = (Class<FS>) list.get(0);
-        this.mClazzField = (Class<F>) list.get(1);
-        this.mClazzMethod = (Class<M>) list.get(2);
-        this.mClazzIherit = (Class<I>) list.get(3);
+    /*public*/ Reflecty(ReflectyBuilder<CD, F, M, I> builder) {
+        this.mDelegate = builder.mDelegate;
+        this.mClazzClass = builder.clazzObject;
+        this.mClazzField = builder.clazzField;
+        this.mClazzMethod = builder.clazzMethod;
+        this.mClazzIherit = builder.clazzInherit;
 
-        sCache = new WeakHashMap<>();
-        sShareCache = new WeakHashMap<>();
+        mCache = new WeakHashMap<>();
+        mShareCache = new WeakHashMap<>();
     }
 
     /**
-     * init the members to the cache.
+     * initialize the members to the cache.
      * @param classes the classes to cache members.
      * @see MemberProxy
      */
@@ -67,10 +67,10 @@ public abstract class Reflecty<FS extends Annotation,F extends Annotation,
         }
     }
     public List<MemberProxy> getMemberProxies(Class<?> clazz) {
-        List<MemberProxy> memberProxies = sCache.get(clazz);
+        List<MemberProxy> memberProxies = mCache.get(clazz);
         if(memberProxies == null){
             memberProxies = getMemberProxies1(clazz);
-            sCache.put(clazz, memberProxies);
+            mCache.put(clazz, memberProxies);
         }
         return memberProxies;
     }
@@ -88,13 +88,12 @@ public abstract class Reflecty<FS extends Annotation,F extends Annotation,
     private void getMemberProxies0(Class<?> clazz, List<MemberProxy> out) {
         final Class<?> rawClass = clazz;
         /*
-         * 1, has @FieldMembers. isInherit ? judge if has @Inherit.
          */
         while (clazz != Object.class) {
             final boolean isInherit = clazz != rawClass;
             // from super. check super's allow members.
             if (isInherit) {
-                List<MemberProxy> proxies = sShareCache.get(clazz);
+                List<MemberProxy> proxies = mShareCache.get(clazz);
                 if (proxies != null) {
                     out.addAll(0, proxies);
                     clazz = clazz.getSuperclass();
@@ -109,113 +108,83 @@ public abstract class Reflecty<FS extends Annotation,F extends Annotation,
             List<MemberProxy> allowInherits = new ArrayList<>();
             // handle fields
             Field[] fields = clazz.getDeclaredFields();
-            FS fieldMembers = clazz.getAnnotation(mClazzFields);
-            if (fieldMembers != null) {
-                if (isInherit) {
-                    // has FieldMembers and in 'inherit'
-                    for (Field f : fields) {
-                        f.setAccessible(true);
-                        I fieldInherit = f.getAnnotation(mClazzIherit);
-                        // allow inherit
-                        if (mDelegate.isAllowInherit(fieldInherit)) {
-                           // FieldProxy proxy = new FieldProxy(clazz, f, f.getAnnotation(FieldMember.class));
-                            F ff = f.getAnnotation(mClazzField);
-                            FieldProxy proxy = mDelegate.createFieldProxy(clazz, f, mDelegate.getPropertyFromField(f, ff), ff);
-                            out.add(proxy);
-                            allowInherits.add(proxy);
-                        }
-                    }
-                } else {
-                    // has FieldMembers, and fields is self.
-                    for (Field f : fields) {
-                        f.setAccessible(true);
-                       // FieldProxy proxy = new FieldProxy(clazz, f, f.getAnnotation(FieldMember.class));
-                        F ff = f.getAnnotation(mClazzField);
-                        FieldProxy proxy = mDelegate.createFieldProxy(clazz, f, mDelegate.getPropertyFromField(f, ff), ff);
-                        out.add(proxy);
-                        // for share cache
-                        I fieldInherit = f.getAnnotation(mClazzIherit);
-                        if (mDelegate.isAllowInherit(fieldInherit)) {
-                            allowInherits.add(proxy);
-                        }
+            CD clazzClass = null;
+            if(mClazzClass != null){
+                clazzClass = clazz.getAnnotation(mClazzClass);
+                if(clazzClass == null){
+                    //check if 'mClazzClass' is allow inherit
+                    if(mDelegate.isAllowInherit(mClazzClass)){
+                        //find from nearest super class.
+                        Class<?> superClass = clazz.getSuperclass();
+                        do {
+                            clazzClass = superClass.getAnnotation(mClazzClass);
+                            superClass = superClass.getSuperclass();
+                            if(superClass == Object.class || superClass == null){
+                                break;
+                            }
+                        }while (clazzClass == null);
                     }
                 }
-            } else {
-                // no assign include all fields. need FieldMember.
-                if (isInherit) {
-                    // in 'inherit'
-                    for (Field f : fields) {
-                        f.setAccessible(true);
-                        F mm = f.getAnnotation(mClazzField);
-                        // allow inherit
-                        if (mm != null) {
-                            I fieldInherit = f.getAnnotation(mClazzIherit);
-                            if (mDelegate.isAllowInherit(fieldInherit)) {
-                                //FieldProxy proxy = new FieldProxy(clazz, f, mm);
-                                FieldProxy proxy = mDelegate.createFieldProxy(clazz, f, mDelegate.getPropertyFromField(f, mm), mm);
-                                out.add(proxy);
-                                allowInherits.add(proxy);
-                            }
-                        }
-                    }
-                } else {
-                    // self fields
-                    for (Field f : fields) {
-                        f.setAccessible(true);
-                        F mm = f.getAnnotation(mClazzField);
-                        if (mm == null) {
-                            continue;
-                        }
-                        FieldProxy proxy = mDelegate.createFieldProxy(clazz, f, mDelegate.getPropertyFromField(f, mm), mm);
-                        out.add(proxy);
-                        // for share cache
-                        I fieldInherit = f.getAnnotation(mClazzIherit);
-                        if (mDelegate.isAllowInherit(fieldInherit)) {
-                            allowInherits.add(proxy);
-                        }
+            }
+            //handle fields
+            for (Field f: fields) {
+                f.setAccessible(true);
+                F fieldDesc = f.getAnnotation(mClazzField);
+                // allow inherit
+                if (mDelegate.shouldIncludeField(f, fieldDesc, isInherit)) {
+                    FieldProxy proxy = mDelegate.createFieldProxy(clazz, clazzClass, f,
+                            mDelegate.getPropertyFromField(f, fieldDesc), fieldDesc);
+                    out.add(proxy);
+                    //
+                    I inherit = mClazzIherit != null ? f.getAnnotation(mClazzIherit) : null;
+                    if (mDelegate.isAllowInherit(inherit)) {
+                        allowInherits.add(proxy);
                     }
                 }
             }
             //handle methods
-            List<Method> gets = new ArrayList<>();
-            List<Method> sets = new ArrayList<>();
-            Method[] methods = clazz.getDeclaredMethods();
-            for (Method method : methods) {
-                method.setAccessible(true);
+            if(mClazzMethod != null){
+                List<Method> gets = new ArrayList<>();
+                List<Method> sets = new ArrayList<>();
+                Method[] methods = clazz.getDeclaredMethods();
+                for (Method method : methods) {
+                    method.setAccessible(true);
 
-                M mm = method.getAnnotation(mClazzMethod);
-                if (mm == null) {
-                    continue;
-                }
-                if (mDelegate.isGetMethod(mm)) {
-                    //get must be no arguments
-                    if(method.getParameterTypes().length > 0){
-                        throw new IllegalStateException("as 'get' method for @MethodMember must have no arguments.");
+                    M mm = method.getAnnotation(mClazzMethod);
+                    if(!mDelegate.shouldIncludeMethod(method, mm, isInherit)){
+                        continue;
                     }
-                    //for better use. only check get method.
-                    if(isInherit){
-                        if(!mDelegate.isAllowInherit(method.getAnnotation(mClazzIherit))){
-                            continue;
+                    if (mDelegate.isGetMethod(mm)) {
+                        //get must be no arguments
+                        if(method.getParameterTypes().length > 0){
+                            throw new IllegalStateException("as 'get' method for @MethodMember must have no arguments.");
                         }
+                        //for better use. only check get method.
+                        if(isInherit){
+                            I inherit = mClazzIherit != null ? method.getAnnotation(mClazzIherit) : null;
+                            if(!mDelegate.isAllowInherit(inherit)){
+                                continue;
+                            }
+                        }
+                        gets.add(method);
+                    } else {
+                        if(method.getParameterTypes().length != 1){
+                            throw new IllegalStateException("as 'set' method for @MethodMember can only have one argument.");
+                        }
+                        sets.add(method);
                     }
-                    gets.add(method);
-                } else {
-                    if(method.getParameterTypes().length != 1){
-                        throw new IllegalStateException("as 'set' method for @MethodMember can only have one argument.");
-                    }
-                    sets.add(method);
                 }
-            }
-            //not all empty
-            if(!gets.isEmpty() || !sets.isEmpty()){
-                if(gets.size() >= sets.size()){
-                    makePairMethods(clazz, gets, sets, true, out, allowInherits);
-                }else {
-                    makePairMethods(clazz, sets, gets, false, out, allowInherits);
+                //not all empty
+                if(!gets.isEmpty() || !sets.isEmpty()){
+                    if(gets.size() >= sets.size()){
+                        makePairMethods(clazz, clazzClass, gets, sets, true, out, allowInherits);
+                    }else {
+                        makePairMethods(clazz, clazzClass, sets, gets, false, out, allowInherits);
+                    }
                 }
             }
             //put share cache
-            sShareCache.put(clazz, allowInherits);
+            mShareCache.put(clazz, allowInherits);
 
             clazz = clazz.getSuperclass();
             if (clazz == null) {
@@ -225,8 +194,8 @@ public abstract class Reflecty<FS extends Annotation,F extends Annotation,
     }
 
     // src.size() > other.size(). for methods. method name should not be proguard.
-    private void makePairMethods(Class<?> owner,List<Method> src, List<Method> others, boolean srcIsGet,
-                                        List<MemberProxy> out, List<MemberProxy> shareOut) {
+    private void makePairMethods(Class<?> owner, CD classDesc, List<Method> src, List<Method> others, boolean srcIsGet,
+                                 List<MemberProxy> out, List<MemberProxy> shareOut) {
         // assert src.size() >= others.size();
         int bigSize = src.size();
         for (int i = 0; i < bigSize; i++) {
@@ -249,11 +218,11 @@ public abstract class Reflecty<FS extends Annotation,F extends Annotation,
             Method main;
             if(srcIsGet){
                // proxy = new MethodProxy(owner, method, other);
-                proxy = mDelegate.createMethodProxy(owner, method, other, property, mn);
+                proxy = mDelegate.createMethodProxy(owner, classDesc, method, other, property, mn);
                 main = method;
             }else {
                // proxy = new MethodProxy(owner, other, method);
-                proxy = mDelegate.createMethodProxy(owner, other, method, property, mn);
+                proxy = mDelegate.createMethodProxy(owner, classDesc, other, method, property, mn);
                 main = other;
             }
             out.add(proxy);
