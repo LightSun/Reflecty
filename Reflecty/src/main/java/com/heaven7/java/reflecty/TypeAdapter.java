@@ -42,17 +42,19 @@ public abstract class TypeAdapter<Out,In> {
     /**
      * write the member by the sink.
      * @param sink the out sink
-     * @param obj the object
+     * @param property the property which is from {@linkplain MemberProxy#getPropertyName()}
+     * @param obj the object value
      * @return the write length as bytes count.
      * @throws IOException if an I/O error occurs
      */
-    public abstract int write(Out sink, Object obj) throws IOException;
+    public abstract int write(Out sink, String property, Object obj) throws IOException;
     /**
      * read the value from source and set to the object.
      * @param source the input source
+     * @param property the property which is from {@linkplain MemberProxy#getPropertyName()}
      * @throws IOException if an I/O error occurs
      */
-    public abstract Object read(In source) throws IOException;
+    public abstract Object read(In source, String property) throws IOException;
 
     /**
      * evaluate the size of target member from object

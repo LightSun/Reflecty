@@ -9,7 +9,7 @@ import java.util.Collection;
 public class CollectionTypeAdapter extends GsonAdapter {
 
     @Override
-    public int write(JsonWriter sink, Object obj) throws IOException {
+    public int write(JsonWriter sink, String property, Object obj) throws IOException {
         Collection coll = (Collection) obj;
         sink.beginArray();
 
@@ -18,7 +18,7 @@ public class CollectionTypeAdapter extends GsonAdapter {
     }
 
     @Override
-    public Object read(JsonReader source) throws IOException {
+    public Object read(JsonReader source, String property) throws IOException {
         return null;
     }
 }
