@@ -41,7 +41,7 @@ public interface ReflectyDelegate<CD extends Annotation,
     /**
      * indicate the annotation which is applied on the class is allow inherit or not.
      * if allow and current annotation is null,  it will find annotation from super classes until found.
-     * @param clazz the annotation class
+     * @param clazz the annotation class  which is applied on the class
      * @return true if the class description allow inherit
      */
     boolean isAllowInherit(Class<CD> clazz);
@@ -78,7 +78,7 @@ public interface ReflectyDelegate<CD extends Annotation,
     /**
      * create the method proxy
      * @param owner the owner clas
-     * @param classDesc the annotation class desc object which is applied on class.
+     * @param classDesc the annotation class desc object which is applied on class. can be null.
      * @param get the get method
      * @param set the set method
      * @param property the property
@@ -90,7 +90,7 @@ public interface ReflectyDelegate<CD extends Annotation,
     /**
      * create field proxy
      * @param owner the owner class
-     * @param classDesc the annotation class desc object which is applied on class.
+     * @param classDesc the annotation class desc object which is applied on class. can be null.
      * @param field the field
      * @param property the property from field
      * @param fn the field annotation object
