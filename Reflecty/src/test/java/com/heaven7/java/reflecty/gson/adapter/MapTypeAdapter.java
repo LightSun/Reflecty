@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
+@SuppressWarnings("unchecked")
 public final class MapTypeAdapter extends GsonAdapter {
 
     private final TypeAdapterContext mContext;
@@ -28,30 +29,50 @@ public final class MapTypeAdapter extends GsonAdapter {
     @Override
     public int write(JsonWriter sink, Object obj) throws IOException {
         Map map = mContext.getMap(obj);
-        TypeAdapter<JsonWriter, JsonReader> key = mKeyAdapter instanceof BasicTypeAdapter ?
-                ((BasicTypeAdapter) mKeyAdapter).getNameTypeAdapter() : mKeyAdapter;
-        Set<Map.Entry> set = map.entrySet();
-        sink.beginObject();
-        for (Map.Entry en : set){
-            key.write(sink, en.getKey());
-            mValueAdapter.write(sink, en.getValue());
+        if(mKeyAdapter instanceof BasicTypeAdapter){
+            TypeAdapter<JsonWriter, JsonReader> key = ((BasicTypeAdapter) mKeyAdapter).getNameTypeAdapter();
+            Set<Map.Entry> set = map.entrySet();
+            sink.beginObject();
+            for (Map.Entry en : set){
+                key.write(sink, en.getKey());
+                mValueAdapter.write(sink, en.getValue());
+            }
+            sink.endObject();
+        }else {
+            TypeAdapter<JsonWriter, JsonReader> key = mKeyAdapter;
+            Set<Map.Entry> set = map.entrySet();
+            sink.beginArray();
+            for (Map.Entry en : set){
+                key.write(sink, en.getKey());
+                mValueAdapter.write(sink, en.getValue());
+            }
+            sink.endArray();
         }
-        sink.endObject();
         return 0;
     }
 
     @Override
     public Object read(JsonReader source) throws IOException {
         Map map = mContext.createMap(mMapClass);
-        TypeAdapter<JsonWriter, JsonReader> keyTA = mKeyAdapter instanceof BasicTypeAdapter ?
-                ((BasicTypeAdapter) mKeyAdapter).getNameTypeAdapter() : mKeyAdapter;
-        source.beginObject();
-        while (source.hasNext()){
-            Object key = keyTA.read(source);
-            Object value = mValueAdapter.read(source);
-            map.put(key, value);
+        if(mKeyAdapter instanceof BasicTypeAdapter){
+            TypeAdapter<JsonWriter, JsonReader> keyTA = ((BasicTypeAdapter) mKeyAdapter).getNameTypeAdapter();
+            source.beginObject();
+            while (source.hasNext()){
+                Object key = keyTA.read(source);
+                Object value = mValueAdapter.read(source);
+                map.put(key, value);
+            }
+            source.endObject();
+        }else {
+            TypeAdapter<JsonWriter, JsonReader> keyTA = mKeyAdapter;
+            source.beginArray();
+            while (source.hasNext()){
+                Object key = keyTA.read(source);
+                Object value = mValueAdapter.read(source);
+                map.put(key, value);
+            }
+            source.endArray();
         }
-        source.endObject();
         return map instanceof Wrapper ? ((Wrapper) map).unwrap() : map;
     }
 }

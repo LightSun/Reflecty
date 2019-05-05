@@ -8,8 +8,11 @@ import com.heaven7.java.reflecty.TypeAdapter;
 import com.heaven7.java.reflecty.TypeToken;
 import com.heaven7.java.reflecty.gson.JsonObjectAdapter;
 import com.heaven7.java.reflecty.gson.SparseArrayAdapter;
+import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -93,5 +96,20 @@ public class Tests extends BaseTest {
         GsonBuilder builder = new GsonBuilder().registerTypeAdapter(sa.getClass(), new SparseArrayAdapter(mta));
 
         testTypeToken(builder, new TypeToken<SparseArrayDelegate<String>>(){}, sa , 1.0f);
+    }
+
+    @Test
+    public void testMap3() throws Exception{
+        Map<Person, String> map = createPersonMap();
+        TypeToken<Map<Person, String>> tt = new TypeToken<Map<Person, String>>() {
+        };
+        TypeAdapter<JsonWriter, JsonReader> ta = TypeAdapter.ofTypeToken(tt, mAtm, 1.0f);
+
+        StringWriter sw = new StringWriter();
+        ta.write(new JsonWriter(sw), map);
+        //read it as map.
+        Object obj = ta.read(new JsonReader(new StringReader(sw.toString())));
+        Assert.assertEquals(obj, map);
+        System.out.println(obj);
     }
 }

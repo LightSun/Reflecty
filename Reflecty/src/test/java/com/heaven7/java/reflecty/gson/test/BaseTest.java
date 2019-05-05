@@ -44,6 +44,7 @@ public class BaseTest  {
         StringWriter sw = new StringWriter();
         TypeAdapter.ofTypeToken(tt, mAtm, version).write(new JsonWriter(sw), obj);
         Assert.assertEquals(gson.toJson(obj), sw.toString());
+        System.out.println(sw.toString());
     }
 
     public static List<String> createList(){
@@ -58,6 +59,17 @@ public class BaseTest  {
         Map<Integer,String> map = new HashMap<>();
         for (int i = 0 ; i < 3 ; i ++){
             map.put(i, "hhh___" + i);
+        }
+        return map;
+    }
+
+    public static Map<Person,String> createPersonMap(){
+        Map<Person,String> map = new HashMap<>();
+        for (int i = 0 ; i < 3 ; i ++){
+            Person p = new Person();
+            p.setAge(i * 10);
+            p.setName("heaven7__" + i);
+            map.put(p, "hhh___" + i);
         }
         return map;
     }
