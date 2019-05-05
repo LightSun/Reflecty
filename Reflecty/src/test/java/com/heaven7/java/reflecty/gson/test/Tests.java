@@ -1,6 +1,5 @@
 package com.heaven7.java.reflecty.gson.test;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
@@ -8,6 +7,7 @@ import com.heaven7.java.base.util.SparseArrayDelegate;
 import com.heaven7.java.reflecty.TypeAdapter;
 import com.heaven7.java.reflecty.TypeToken;
 import com.heaven7.java.reflecty.gson.JsonObjectAdapter;
+import com.heaven7.java.reflecty.gson.ReflectyTypeAdapterFactory;
 import com.heaven7.java.reflecty.gson.SparseArrayAdapter;
 import org.junit.Assert;
 import org.junit.Test;
@@ -112,5 +112,16 @@ public class Tests extends BaseTest {
         Object obj = ta.read(new JsonReader(new StringReader(sw.toString())));
         Assert.assertEquals(obj, map);
         System.out.println(obj);
+    }
+
+    @Test
+    public void testTypeAdapterFactory() throws Exception{
+        SparseArrayDelegate<String> sa = createSparseArray();
+        String s = new GsonBuilder()
+                .registerTypeAdapterFactory(new ReflectyTypeAdapterFactory(mAtm, 1.0f))
+                .setVersion(1.0f)
+                .create()
+                .toJson(sa, new TypeToken<SparseArrayDelegate<String>>(){}.getType()); // must assign type.
+        System.out.println(s);
     }
 }
