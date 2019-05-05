@@ -18,9 +18,10 @@ import java.util.Map;
 public final class TypeNodeUtils {
 
     /**
-     * get the type adapter from
+     * get the type adapter from target type node and type adapter manager delegate.
      * @param <Out> the output type
      * @param <In> the input type
+     * @param node the type node
      * @param delegate the type adapter manager delegate
      * @param applyVersion the expect version
      * @return the type adapter

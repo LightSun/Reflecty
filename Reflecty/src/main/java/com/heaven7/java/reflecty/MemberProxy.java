@@ -42,6 +42,7 @@ public interface MemberProxy {
     /**
      * get the type node which the member is represent
      * @return the type node
+     * @since 1.0.1
      */
     TypeNode getTypeNode();
 

@@ -36,12 +36,12 @@ public abstract class BaseMemberProxy implements MemberProxy {
     }
 
     @Override
-    public TypeNode getTypeNode() {
+    public final TypeNode getTypeNode() {
         return mNode;
     }
 
     @Override
-    public Class<?> getOwnerClass() {
+    public final Class<?> getOwnerClass() {
         return mOwnerClass;
     }
     /**
