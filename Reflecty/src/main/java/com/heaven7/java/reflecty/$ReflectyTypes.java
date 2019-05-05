@@ -207,9 +207,18 @@ public final class $ReflectyTypes {
                 if(adapter != null){
                     return adapter;
                 }
-                if(Collection.class.isAssignableFrom(type)){
-                    return delegate.createCollectionTypeAdapter(type,
-                            getSubNode(0).getTypeAdapter(delegate, applyVersion));
+                if(Collection.class.isAssignableFrom(type) || context.isCollection(type)){
+                    TypeAdapter<Out, In> ta;
+                    if(getSubNodeCount() == 0){
+                        ta = delegate.getElementAdapter(type);
+                    }else {
+                        ta = getSubNode(0).getTypeAdapter(delegate, applyVersion);
+                    }
+                    if(ta == null){
+                        throw new IllegalStateException("can't find target element adapter for collection class = " + type.getName());
+                    }
+                    return delegate.createCollectionTypeAdapter(type, ta);
+
                 }else if(Map.class.isAssignableFrom(type) || context.isMap(type)){
                     TypeAdapter<Out, In> key, value;
 

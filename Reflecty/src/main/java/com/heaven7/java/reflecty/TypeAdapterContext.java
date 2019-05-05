@@ -56,9 +56,23 @@ public interface TypeAdapterContext {
     Map getMap(Object obj);
 
     /**
+     * indicate the class can be used as collection or not.
+     * @param clazz the class
+     * @return true if regard it as collection.
+     */
+    boolean isCollection(Class<?> clazz);
+
+    /**
      * create collection from target class name
      * @param clazz the class which often extend collection. like list, set and etc.
      * @return the collection
      */
     Collection createCollection(Class<?> clazz);
+
+    /**
+     * make the object used as collection and get it
+     * @param obj the object
+     * @return the collection
+     */
+    Collection getCollection(Object obj);
 }

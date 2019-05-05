@@ -91,6 +91,19 @@ public class SimpleTypeAdapterContext implements TypeAdapterContext {
     }
 
     @Override
+    public Collection getCollection(Object obj) {
+        if(obj instanceof Collection){
+            return (Collection) obj;
+        }
+        return null;
+    }
+
+    @Override
+    public boolean isCollection(Class<?> clazz) {
+        return Collection.class.isAssignableFrom(clazz);
+    }
+
+    @Override
     public boolean isMap(Class<?> rawType) {
         return Map.class.isAssignableFrom(rawType) || SparseArrayDelegate.class.isAssignableFrom(rawType);
     }

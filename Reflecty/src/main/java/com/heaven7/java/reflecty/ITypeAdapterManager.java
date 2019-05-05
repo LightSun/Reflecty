@@ -81,15 +81,22 @@
      /**
       * get the key adapter for target map class type.
       * @param type the class. can be {@linkplain com.heaven7.java.base.util.SparseArrayDelegate}.
-      * @return the type adapter
+      * @return the key type adapter
       */
      TypeAdapter<Out,In> getKeyAdapter(Class<?> type);
      /**
       * get the value adapter for target map class type.
       * @param type the class . can be any class like {@linkplain Map}.
-      * @return the type adapter
+      * @return the value type adapter
       */
      TypeAdapter<Out,In> getValueAdapter(Class<?> type);
+
+     /**
+      * get the element type adapter for collection class type.
+      * @param type the collection class. can be any similar collection. like {@linkplain java.util.Collection}
+      * @return the element type adapter
+      */
+     TypeAdapter<Out, In> getElementAdapter(Class<?> type);
      //========================================================================
 
      /**
@@ -128,4 +135,5 @@
       * @return the type adapter
       */
      TypeAdapter<Out, In> createObjectTypeAdapter(Class<?> objectClazz, float applyVersion);
+
  }

@@ -4,6 +4,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.heaven7.java.reflecty.TypeAdapter;
 import com.heaven7.java.reflecty.TypeAdapterContext;
+import com.heaven7.java.reflecty.Wrapper;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -22,7 +23,7 @@ public final class CollectionTypeAdapter extends GsonAdapter {
 
     @Override
     public int write(JsonWriter sink, Object obj) throws IOException {
-        Collection coll = (Collection) obj;
+        Collection coll = mContext.getCollection(obj);
         sink.beginArray();
         for (Object element : coll){
             mComponentAdapter.write(sink, element);
@@ -40,6 +41,6 @@ public final class CollectionTypeAdapter extends GsonAdapter {
             coll.add(ele);
         }
         source.endArray();
-        return coll;
+        return coll instanceof Wrapper ? ((Wrapper) coll).unwrap() : coll;
     }
 }
