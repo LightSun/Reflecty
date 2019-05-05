@@ -3,7 +3,7 @@ package com.heaven7.java.reflecty.gson.adapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.heaven7.java.reflecty.TypeAdapter;
-import com.heaven7.java.reflecty.TypeAdapterContext;
+import com.heaven7.java.reflecty.ReflectyContext;
 import com.heaven7.java.reflecty.Wrapper;
 
 import java.io.IOException;
@@ -12,10 +12,10 @@ import java.util.Collection;
 public final class CollectionTypeAdapter extends GsonAdapter {
 
     private final TypeAdapter<JsonWriter, JsonReader> mComponentAdapter;
-    private final TypeAdapterContext mContext;
+    private final ReflectyContext mContext;
     private final Class<?> mCollClazz;
 
-    public CollectionTypeAdapter(TypeAdapterContext mContext, Class<?> collClazz, TypeAdapter<JsonWriter, JsonReader> mComponentAdapter) {
+    public CollectionTypeAdapter(ReflectyContext mContext, Class<?> collClazz, TypeAdapter<JsonWriter, JsonReader> mComponentAdapter) {
         this.mContext = mContext;
         this.mCollClazz = collClazz;
         this.mComponentAdapter = mComponentAdapter;

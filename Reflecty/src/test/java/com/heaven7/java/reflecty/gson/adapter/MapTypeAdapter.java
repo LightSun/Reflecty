@@ -4,7 +4,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.heaven7.java.reflecty.BasicTypeAdapter;
 import com.heaven7.java.reflecty.TypeAdapter;
-import com.heaven7.java.reflecty.TypeAdapterContext;
+import com.heaven7.java.reflecty.ReflectyContext;
 import com.heaven7.java.reflecty.Wrapper;
 
 import java.io.IOException;
@@ -14,12 +14,12 @@ import java.util.Set;
 @SuppressWarnings("unchecked")
 public final class MapTypeAdapter extends GsonAdapter {
 
-    private final TypeAdapterContext mContext;
+    private final ReflectyContext mContext;
     private final Class<?> mMapClass;
     private final TypeAdapter<JsonWriter, JsonReader> mKeyAdapter;
     private final TypeAdapter<JsonWriter, JsonReader> mValueAdapter;
 
-    public MapTypeAdapter(TypeAdapterContext mContext, Class<?> mMapClass, TypeAdapter<JsonWriter, JsonReader> mKeyAdapter, TypeAdapter<JsonWriter, JsonReader> mValueAdapter) {
+    public MapTypeAdapter(ReflectyContext mContext, Class<?> mMapClass, TypeAdapter<JsonWriter, JsonReader> mKeyAdapter, TypeAdapter<JsonWriter, JsonReader> mValueAdapter) {
         this.mContext = mContext;
         this.mMapClass = mMapClass;
         this.mKeyAdapter = mKeyAdapter;

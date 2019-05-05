@@ -3,7 +3,7 @@ package com.heaven7.java.reflecty.utils;
 import com.heaven7.java.base.util.Predicates;
 import com.heaven7.java.reflecty.ITypeAdapterManager;
 import com.heaven7.java.reflecty.TypeAdapter;
-import com.heaven7.java.reflecty.TypeAdapterContext;
+import com.heaven7.java.reflecty.ReflectyContext;
 import com.heaven7.java.reflecty.TypeNode;
 
 import java.util.Collection;
@@ -32,7 +32,7 @@ public final class TypeNodeUtils {
             return delegate.createArrayTypeAdapter(subNode.getTypeClass(0),
                     getTypeAdapter(subNode, delegate, applyVersion));
         }
-        TypeAdapterContext context = delegate.getTypeAdapterContext();
+        ReflectyContext context = delegate.getReflectyContext();
         Class<?> type = node.getRawClass();
         if(type != null){
             //dynamic register

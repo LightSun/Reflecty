@@ -14,8 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.heaven7.java.reflecty;
+package com.heaven7.java.reflecty.member;
 
+
+import com.heaven7.java.reflecty.$ReflectyTypes;
+import com.heaven7.java.reflecty.MemberProxy;
+import com.heaven7.java.reflecty.TypeNode;
 
 import java.lang.reflect.Type;
 

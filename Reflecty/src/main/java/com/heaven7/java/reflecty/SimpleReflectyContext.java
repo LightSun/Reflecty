@@ -27,7 +27,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 /**
  * @author heaven7
  */
-public class SimpleTypeAdapterContext implements TypeAdapterContext {
+public class SimpleReflectyContext implements ReflectyContext {
 
     @Override
     public Object newInstance(Class<?> clazz) {

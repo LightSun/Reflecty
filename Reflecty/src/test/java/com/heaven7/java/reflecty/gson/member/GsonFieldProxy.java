@@ -2,7 +2,7 @@ package com.heaven7.java.reflecty.gson.member;
 
 import com.google.gson.annotations.Since;
 import com.google.gson.annotations.Until;
-import com.heaven7.java.reflecty.FieldProxy;
+import com.heaven7.java.reflecty.member.FieldProxy;
 
 import java.lang.reflect.Field;
 

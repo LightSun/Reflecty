@@ -7,7 +7,6 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.heaven7.java.reflecty.*;
 import com.heaven7.java.reflecty.gson.member.StartEndMemberProxy;
-import com.heaven7.java.reflecty.utils.TypeNodeUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -73,7 +72,7 @@ public class ObjectTypeAdapter extends GsonAdapter {
             return ta.read(source);
         }
 
-        Object obj = mTAM.getTypeAdapterContext().newInstance(mClazz);
+        Object obj = mTAM.getReflectyContext().newInstance(mClazz);
         List<MemberProxy> proxies = sReflecty.getMemberProxies(mClazz);
         source.beginObject();
         try {

@@ -33,7 +33,7 @@
       *
       * @return the type adapter context
       */
-     TypeAdapterContext getTypeAdapterContext();
+     ReflectyContext getReflectyContext();
 
      /**
       * get the type adapter for type node.
@@ -80,14 +80,14 @@
      //================================================================================================
      /**
       * get the key adapter for target map class type. this often used when you want to use a self-type map.
-      * can non-extend {@linkplain Map}. see {@linkplain TypeAdapterContext#isMap(Class)} and {@linkplain TypeAdapterContext#createMap(Class)}.
+      * can non-extend {@linkplain Map}. see {@linkplain ReflectyContext#isMap(Class)} and {@linkplain ReflectyContext#createMap(Class)}.
       * @param type the class. can be {@linkplain com.heaven7.java.base.util.SparseArrayDelegate}.
       * @return the key type adapter
       */
      TypeAdapter<Out,In> getKeyAdapter(Class<?> type);
      /**
       * get the value adapter for target map class type. this often used when you want to use a self-type map.
-      * can non-extend {@linkplain Map}. see {@linkplain TypeAdapterContext#isMap(Class)} and {@linkplain TypeAdapterContext#createMap(Class)}.
+      * can non-extend {@linkplain Map}. see {@linkplain ReflectyContext#isMap(Class)} and {@linkplain ReflectyContext#createMap(Class)}.
       * @param type the class . can be any class like {@linkplain Map}.
       * @return the value type adapter. or null if you haven't use self-type map.
       */
@@ -95,7 +95,7 @@
 
      /**
       * get the element type adapter for collection class type. this often used when you want to use a self-type collection.
-      * can non-extend {@linkplain java.util.Collection}. see {@linkplain TypeAdapterContext#isCollection(Class)} and {@linkplain TypeAdapterContext#createCollection(Class)}.
+      * can non-extend {@linkplain java.util.Collection}. see {@linkplain ReflectyContext#isCollection(Class)} and {@linkplain ReflectyContext#createCollection(Class)}.
       * @param type the collection class. can be any similar collection. like {@linkplain java.util.Collection}
       * @return the element type adapter. or null if you haven't use self-type collection.
       */

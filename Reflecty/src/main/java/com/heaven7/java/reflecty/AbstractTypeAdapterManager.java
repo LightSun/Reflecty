@@ -3,6 +3,7 @@ package com.heaven7.java.reflecty;
 
 import com.heaven7.java.base.util.SparseArrayDelegate;
 import com.heaven7.java.base.util.SparseFactory;
+import com.heaven7.java.reflecty.member.BaseMemberProxy;
 import com.heaven7.java.reflecty.utils.Pair;
 
 import java.lang.reflect.Type;
@@ -18,22 +19,22 @@ import java.util.Map;
  */
 public abstract class AbstractTypeAdapterManager<Out, In> implements ITypeAdapterManager<Out, In>{
 
-    private final TypeAdapterContext context;
+    private final ReflectyContext context;
 
     private final Map<TypeNode, Pair<Float,TypeAdapter<Out, In>>> mAdapterMap = new HashMap<>();
     private final SparseArrayDelegate<TypeAdapter<Out, In>> mBaseAdapterMap
             = SparseFactory.newSparseArray(10);
 
     public AbstractTypeAdapterManager() {
-        this(new SimpleTypeAdapterContext());
+        this(new SimpleReflectyContext());
     }
 
-    public AbstractTypeAdapterManager(TypeAdapterContext context) {
+    public AbstractTypeAdapterManager(ReflectyContext context) {
         this.context = context;
     }
 
     @Override
-    public TypeAdapterContext getTypeAdapterContext() {
+    public final ReflectyContext getReflectyContext() {
         return context;
     }
 

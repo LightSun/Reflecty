@@ -32,7 +32,7 @@ public final class GsonATM extends AbstractTypeAdapterManager<JsonWriter, JsonRe
 
     @Override
     public TypeAdapter<JsonWriter, JsonReader> createCollectionTypeAdapter(Class<?> collectionClass, TypeAdapter<JsonWriter, JsonReader> componentAdapter) {
-        return new CollectionTypeAdapter(getTypeAdapterContext(), collectionClass, componentAdapter);
+        return new CollectionTypeAdapter(getReflectyContext(), collectionClass, componentAdapter);
     }
     @Override
     public TypeAdapter<JsonWriter, JsonReader> createArrayTypeAdapter(Class<?> componentClass, TypeAdapter<JsonWriter, JsonReader> componentAdapter) {
@@ -41,7 +41,7 @@ public final class GsonATM extends AbstractTypeAdapterManager<JsonWriter, JsonRe
     @Override
     public TypeAdapter<JsonWriter, JsonReader> createMapTypeAdapter(Class<?> mapClazz, TypeAdapter<JsonWriter, JsonReader> keyAdapter,
                                                                     TypeAdapter<JsonWriter, JsonReader> valueAdapter) {
-        return new MapTypeAdapter(getTypeAdapterContext(), mapClazz, keyAdapter, valueAdapter);
+        return new MapTypeAdapter(getReflectyContext(), mapClazz, keyAdapter, valueAdapter);
     }
     @Override
     public TypeAdapter<JsonWriter, JsonReader> createObjectTypeAdapter(Class<?> objectClazz, float applyVersion) {

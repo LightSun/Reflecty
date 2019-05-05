@@ -23,8 +23,7 @@ import java.util.Map;
  * the type adapter context
  * @author heaven7
  */
-public interface TypeAdapterContext {
-
+public interface ReflectyContext {
 
     /**
      * create object for target class
