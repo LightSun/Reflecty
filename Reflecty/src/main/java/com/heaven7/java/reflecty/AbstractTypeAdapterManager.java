@@ -10,7 +10,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * the abstract type adapter manager
+ * the abstract type adapter manager. sub class must register the base {@linkplain TypeAdapter}
+ * for 'byte, short, int, long, float,long, char, boolean ' and their wrapper type, also need string type.
  * @param <Out> the output type, used to write
  * @param <In> the input type ,used to read
  * @author heaven7
@@ -36,10 +37,10 @@ public abstract class AbstractTypeAdapterManager<Out, In> implements ITypeAdapte
         return context;
     }
 
-    @Override
+   /* @Override
     public TypeAdapter<Out, In> getTypeAdapter(Type type, float applyVersion) {
         return getTypeAdapter($ReflectyTypes.getTypeNode(type), applyVersion);
-    }
+    }*/
     @Override
     public TypeAdapter<Out, In> getTypeAdapter(TypeNode genericNode, float applyVersion) {
         Pair<Float, TypeAdapter<Out, In>> pair = mAdapterMap.get(genericNode);
@@ -61,4 +62,15 @@ public abstract class AbstractTypeAdapterManager<Out, In> implements ITypeAdapte
         return mBaseAdapterMap.get(BaseMemberProxy.parseType(baseType));
     }
 
+    @Override
+    public TypeAdapter<Out, In> getKeyAdapter(Class<?> type) {
+        if(SparseArrayDelegate.class.isAssignableFrom(type)){
+            return getBasicTypeAdapter(int.class);
+        }
+        return null;
+    }
+    @Override
+    public TypeAdapter<Out, In> getValueAdapter(Class<?> type) {
+        return null;
+    }
 }

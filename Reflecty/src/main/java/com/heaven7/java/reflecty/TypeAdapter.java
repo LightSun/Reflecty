@@ -40,6 +40,18 @@ public abstract class TypeAdapter<Out,In> {
     }
 
     /**
+     * create type adapter from {@linkplain Class}.
+     * @param <Out> the output type
+     * @param <In> the input type
+     * @param tam the type adapter manager
+     * @param applyVersion the version
+     * @return the type adapter
+     */
+    public static <Out,In> TypeAdapter<Out,In> ofClass(Class<?> clazz, ITypeAdapterManager<Out,In> tam, float applyVersion){
+        return $ReflectyTypes.getTypeNode(clazz).getTypeAdapter(tam, applyVersion);
+    }
+
+    /**
      * write the member by the sink.
      * @param sink the out sink
      * @param obj the object value

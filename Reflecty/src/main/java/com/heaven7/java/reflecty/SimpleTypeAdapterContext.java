@@ -89,6 +89,7 @@ public class SimpleTypeAdapterContext implements TypeAdapterContext {
         }
         return null;
     }
+
     @Override
     public boolean isMap(Class<?> rawType) {
         return Map.class.isAssignableFrom(rawType) || SparseArrayDelegate.class.isAssignableFrom(rawType);

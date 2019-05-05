@@ -162,6 +162,17 @@ public final class $ReflectyTypes {
             }
         }
 
+        public int getSubNodeCount(){
+            if(Predicates.isEmpty(subType)){
+                if(!Predicates.isEmpty(varNodes)){
+                    return varNodes.size();
+                }
+                return 0;
+            }else {
+                return subType.size();
+            }
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -200,9 +211,35 @@ public final class $ReflectyTypes {
                     return delegate.createCollectionTypeAdapter(type,
                             getSubNode(0).getTypeAdapter(delegate, applyVersion));
                 }else if(Map.class.isAssignableFrom(type) || context.isMap(type)){
-                    return delegate.createMapTypeAdapter(type,
-                            getSubNode(0).getTypeAdapter(delegate, applyVersion),
-                            getSubNode(1).getTypeAdapter(delegate, applyVersion));
+                    TypeAdapter<Out, In> key, value;
+
+                    int count = getSubNodeCount();
+                    switch (count){
+                        case 0:
+                            key = delegate.getKeyAdapter(type);
+                            value = delegate.getValueAdapter(type);
+                            break;
+                            //often key type can be fixed. but value not. like sparse array.
+                        case 1:
+                            key = delegate.getKeyAdapter(type);
+                            value = getSubNode(0).getTypeAdapter(delegate, applyVersion);
+                            break;
+
+                        case 2:
+                            key = getSubNode(0).getTypeAdapter(delegate, applyVersion);
+                            value = getSubNode(1).getTypeAdapter(delegate, applyVersion);
+                            break;
+
+                        default:
+                            throw new UnsupportedOperationException("sub node count for map must <= 2. but is " + count);
+                    }
+                    if(key == null){
+                        throw new IllegalStateException("can't find target key adapter for map class = " + type.getName());
+                    }
+                    if(value == null){
+                        throw new IllegalStateException("can't find target value adapter for map class = " + type.getName());
+                    }
+                    return delegate.createMapTypeAdapter(type, key, value);
                 }else {
                     return delegate.createObjectTypeAdapter(type, applyVersion);
                 }
