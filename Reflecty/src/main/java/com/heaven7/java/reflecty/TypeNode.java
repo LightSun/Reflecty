@@ -16,6 +16,8 @@
  */
 package com.heaven7.java.reflecty;
 
+import java.util.List;
+
 /**
  * the type node often indicate the parameter types from {@linkplain TypeToken}.
  * this can used well any type of {@linkplain java.lang.reflect.Type}.
@@ -24,14 +26,48 @@ package com.heaven7.java.reflecty;
 public interface TypeNode {
 
     /**
-     * get the type adapter from
-     * @param <Out> the output type
-     * @param <In> the input type
-     * @param delegate the type adapter manager delegate
-     * @param applyVersion the expect version
-     * @return the type adapter
+     * get the type class for target index node
+     * @param index the index
+     * @return the represent class
+     * @since 1.0.1
      */
-    <Out, In>TypeAdapter<Out, In> getTypeAdapter(ITypeAdapterManager<Out, In> delegate, float applyVersion);
+    Class<?> getTypeClass(int index);
+
+    /**
+     * get the raw class
+     * @return the raw class
+     * @since 1.0.1
+     */
+    Class<?> getRawClass();
+
+    /**
+     * indicate whether the node is array or not.
+     * @return true if this node represent an array.
+     * @since 1.0.1
+     */
+    boolean isArray();
+
+    /**
+     * get variable nodes for target index
+     * @return the variable nodes if exist. can be null
+     * @since 1.0.1
+     */
+    List<TypeNode> getVariableNodes();
+
+    /**
+     * get sub node for target index. sub node can be var node
+     * @param index the index
+     * @return the sub node
+     * @since 1.0.1
+     */
+    TypeNode getSubNode(int index);
+
+    /**
+     * get sub node count.
+     * @return the sub node count
+     * @since 1.0.1
+     */
+    int getSubNodeCount();
 
     /**
      * the hash code of this node

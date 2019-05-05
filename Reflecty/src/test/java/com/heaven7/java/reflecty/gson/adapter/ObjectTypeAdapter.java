@@ -7,9 +7,12 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.heaven7.java.reflecty.*;
 import com.heaven7.java.reflecty.gson.member.StartEndMemberProxy;
+import com.heaven7.java.reflecty.utils.TypeNodeUtils;
 
 import java.io.IOException;
 import java.util.List;
+
+import static com.heaven7.java.reflecty.utils.TypeNodeUtils.getTypeAdapter;
 
 public class ObjectTypeAdapter extends GsonAdapter {
 
@@ -50,7 +53,7 @@ public class ObjectTypeAdapter extends GsonAdapter {
                 for (MemberProxy proxy : proxies){
                     if(((StartEndMemberProxy)proxy).isVersionMatched(mApplyVersion)){
                         sink.name(proxy.getPropertyName());
-                        proxy.getTypeAdapter(mTAM, mApplyVersion).write(sink, proxy.getValue(obj));
+                        getTypeAdapter(proxy.getTypeNode(), mTAM, mApplyVersion).write(sink, proxy.getValue(obj));
                     }
                 }
             }catch (Exception e){
@@ -77,7 +80,7 @@ public class ObjectTypeAdapter extends GsonAdapter {
             while (source.hasNext()){
                 MemberProxy proxy = findMemberProxy(proxies, source.nextName());
                 if(proxy != null && ((StartEndMemberProxy) proxy).isVersionMatched(mApplyVersion)){
-                    Object value = proxy.getTypeAdapter(mTAM, mApplyVersion).read(source);
+                    Object value = getTypeAdapter(proxy.getTypeNode(), mTAM, mApplyVersion).read(source);
                     proxy.setValue(obj, value);
                 }else {
                     source.skipValue();

@@ -16,7 +16,10 @@
  */
 package com.heaven7.java.reflecty;
 
+import com.heaven7.java.reflecty.utils.TypeNodeUtils;
+
 import java.io.IOException;
+import java.lang.reflect.Type;
 
 /**
  * the type adapter which used to write and read message members.
@@ -36,7 +39,20 @@ public abstract class TypeAdapter<Out,In> {
      * @return the type adapter
      */
     public static <Out,In> TypeAdapter<Out,In> ofTypeToken(TypeToken<?> tt, ITypeAdapterManager<Out,In> tam, float applyVersion){
-        return $ReflectyTypes.getTypeNode(tt.getType()).getTypeAdapter(tam, applyVersion);
+        return ofType(tt.getType(), tam, applyVersion);
+    }
+
+    /**
+     * create type adapter from {@linkplain TypeToken}
+     * @param <Out> the output type
+     * @param <In> the input type
+     * @param type the type
+     * @param tam the type adapter manager
+     * @param applyVersion the version
+     * @return the type adapter
+     */
+    public static <Out,In> TypeAdapter<Out,In> ofType(Type type, ITypeAdapterManager<Out,In> tam, float applyVersion){
+        return TypeNodeUtils.getTypeAdapter($ReflectyTypes.getTypeNode(type), tam, applyVersion);
     }
 
     /**
@@ -48,7 +64,7 @@ public abstract class TypeAdapter<Out,In> {
      * @return the type adapter
      */
     public static <Out,In> TypeAdapter<Out,In> ofClass(Class<?> clazz, ITypeAdapterManager<Out,In> tam, float applyVersion){
-        return $ReflectyTypes.getTypeNode(clazz).getTypeAdapter(tam, applyVersion);
+        return ofType(clazz, tam, applyVersion);
     }
 
     /**

@@ -40,6 +40,12 @@ public interface MemberProxy {
     byte FLAG_PACKED = 1;
 
     /**
+     * get the type node which the member is represent
+     * @return the type node
+     */
+    TypeNode getTypeNode();
+
+    /**
      * get the property name . which can from field or method. see {@linkplain ReflectyDelegate#getPropertyFromField(Field, Annotation)}
      * or {@linkplain ReflectyDelegate#getPropertyFromMethod(Method, Annotation)}.
      * @return the property name
@@ -69,15 +75,4 @@ public interface MemberProxy {
      * @throws InvocationTargetException if reflect occurs
      */
     Object getValue(Object obj)  throws IllegalAccessException, InvocationTargetException;
-
-    /**
-     * get the type adapter
-     * @param <Out> the output type
-     * @param <In> the input type
-     * @param delegate the type adapter manager delegate
-     * @param applyVersion the version to apply .
-     * @return the type adapter
-     */
-    <Out, In>TypeAdapter<Out, In> getTypeAdapter(ITypeAdapterManager<Out, In> delegate, float applyVersion);
-
 }

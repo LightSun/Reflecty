@@ -36,12 +36,13 @@ public abstract class BaseMemberProxy implements MemberProxy {
     }
 
     @Override
+    public TypeNode getTypeNode() {
+        return mNode;
+    }
+
+    @Override
     public Class<?> getOwnerClass() {
         return mOwnerClass;
-    }
-    @Override
-    public final  <Out, In> TypeAdapter<Out, In> getTypeAdapter(ITypeAdapterManager<Out, In> meshy, float applyVersion) {
-        return mNode.getTypeAdapter(meshy, applyVersion);
     }
     /**
      * get the base types

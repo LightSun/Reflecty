@@ -48,7 +48,7 @@ public final class $ReflectyTypes {
     private static void parseNode(final Class ownerClass, Type type, GenericNode parent) {
         if(type instanceof ParameterizedType){
             Type[] types = ((ParameterizedType) type).getActualTypeArguments();
-            List<GenericNode> subs = new ArrayList<>();
+            List<TypeNode> subs = new ArrayList<>();
             GenericNode node;
             for (Type t : types){
                 node = new GenericNode();
@@ -126,8 +126,8 @@ public final class $ReflectyTypes {
 
     private static class GenericNode implements TypeNode {
         public Class<?> type;
-        public List<GenericNode> varNodes; //for variable nodes
-        public List<GenericNode> subType;
+        public List<TypeNode> varNodes; //for variable nodes
+        public List<TypeNode> subType;
         public boolean isArray;
 
         public void addNode(GenericNode node) {
@@ -142,6 +142,21 @@ public final class $ReflectyTypes {
             }
             varNodes.add(varNode);
         }
+
+        @Override
+        public Class<?> getRawClass() {
+            return type;
+        }
+
+        @Override
+        public boolean isArray() {
+            return isArray;
+        }
+        @Override
+        public List<TypeNode> getVariableNodes() {
+            return varNodes;
+        }
+        @Override
         public Class<?> getTypeClass(int index) {
             if(type != null){
                 return type;
@@ -151,7 +166,8 @@ public final class $ReflectyTypes {
             }
             return varNodes.get(index).getTypeClass(0);
         }
-        public GenericNode getSubNode(int index){
+        @Override
+        public TypeNode getSubNode(int index){
             if(Predicates.isEmpty(subType)){
                 if(!Predicates.isEmpty(varNodes)){
                     return varNodes.get(index);
@@ -161,7 +177,7 @@ public final class $ReflectyTypes {
                 return subType.get(index);
             }
         }
-
+        @Override
         public int getSubNodeCount(){
             if(Predicates.isEmpty(subType)){
                 if(!Predicates.isEmpty(varNodes)){
@@ -187,76 +203,6 @@ public final class $ReflectyTypes {
         @Override
         public int hashCode() {
             return Objects.hash(type, varNodes, subType, isArray);
-        }
-
-        @Override
-        public <Out, In> TypeAdapter<Out, In> getTypeAdapter(ITypeAdapterManager<Out, In> delegate, float applyVersion) {
-            if(isArray){
-                GenericNode subNode = getSubNode(0);
-                return delegate.createArrayTypeAdapter(subNode.getTypeClass(0),
-                        subNode.getTypeAdapter(delegate, applyVersion));
-            }
-            TypeAdapterContext context = delegate.getTypeAdapterContext();
-            if(type != null){
-                TypeAdapter<Out, In> typeAdapter = delegate.getTypeAdapter(this, applyVersion);
-                if(typeAdapter != null){
-                    return typeAdapter;
-                }
-                //base types
-                TypeAdapter<Out, In> adapter = delegate.getBasicTypeAdapter(type);
-                if(adapter != null){
-                    return adapter;
-                }
-                if(Collection.class.isAssignableFrom(type) || context.isCollection(type)){
-                    TypeAdapter<Out, In> ta;
-                    if(getSubNodeCount() == 0){
-                        ta = delegate.getElementAdapter(type);
-                    }else {
-                        ta = getSubNode(0).getTypeAdapter(delegate, applyVersion);
-                    }
-                    if(ta == null){
-                        throw new IllegalStateException("can't find target element adapter for collection class = " + type.getName());
-                    }
-                    return delegate.createCollectionTypeAdapter(type, ta);
-
-                }else if(Map.class.isAssignableFrom(type) || context.isMap(type)){
-                    TypeAdapter<Out, In> key, value;
-
-                    int count = getSubNodeCount();
-                    switch (count){
-                        case 0:
-                            key = delegate.getKeyAdapter(type);
-                            value = delegate.getValueAdapter(type);
-                            break;
-                            //often key type can be fixed. but value not. like sparse array.
-                        case 1:
-                            key = delegate.getKeyAdapter(type);
-                            value = getSubNode(0).getTypeAdapter(delegate, applyVersion);
-                            break;
-
-                        case 2:
-                            key = getSubNode(0).getTypeAdapter(delegate, applyVersion);
-                            value = getSubNode(1).getTypeAdapter(delegate, applyVersion);
-                            break;
-
-                        default:
-                            throw new UnsupportedOperationException("sub node count for map must <= 2. but is " + count);
-                    }
-                    if(key == null){
-                        throw new IllegalStateException("can't find target key adapter for map class = " + type.getName());
-                    }
-                    if(value == null){
-                        throw new IllegalStateException("can't find target value adapter for map class = " + type.getName());
-                    }
-                    return delegate.createMapTypeAdapter(type, key, value);
-                }else {
-                    return delegate.createObjectTypeAdapter(type, applyVersion);
-                }
-            }else if(!Predicates.isEmpty(varNodes)){
-                return varNodes.get(0).getTypeAdapter(delegate, applyVersion);
-            }else {
-                throw new UnsupportedOperationException("un-reach here");
-            }
         }
     }
     private static class TypeVariablePair{

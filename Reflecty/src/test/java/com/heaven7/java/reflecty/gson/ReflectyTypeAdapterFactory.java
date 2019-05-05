@@ -19,7 +19,8 @@ public class ReflectyTypeAdapterFactory implements TypeAdapterFactory {
     }
     @Override
     public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> tt) {
-        com.heaven7.java.reflecty.TypeAdapter<JsonWriter, JsonReader> ta = $ReflectyTypes.getTypeNode(tt.getType()).getTypeAdapter(atm, version);
+        com.heaven7.java.reflecty.TypeAdapter<JsonWriter, JsonReader> ta = com.heaven7.java.reflecty.TypeAdapter.ofType(
+                tt.getType(), atm, version);
         return new ReflectyAdapter2Adapter<T>(ta);
     }
 }
