@@ -11,8 +11,9 @@ public class JsonObjectAdapter extends GsonAdapter {
 
     private final TypeAdapter<Object> ta;
 
-    public JsonObjectAdapter(TypeAdapter<Object> ta) {
-        this.ta = ta;
+    @SuppressWarnings("unchecked")
+    public JsonObjectAdapter(TypeAdapter<?> ta) {
+        this.ta = (TypeAdapter<Object>) ta;
     }
 
     @Override

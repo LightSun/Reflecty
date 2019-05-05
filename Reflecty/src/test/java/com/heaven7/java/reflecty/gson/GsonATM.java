@@ -4,12 +4,31 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.heaven7.java.reflecty.AbstractTypeAdapterManager;
 import com.heaven7.java.reflecty.TypeAdapter;
-import com.heaven7.java.reflecty.gson.adapter.ArrayTypeAdapter;
-import com.heaven7.java.reflecty.gson.adapter.CollectionTypeAdapter;
-import com.heaven7.java.reflecty.gson.adapter.MapTypeAdapter;
-import com.heaven7.java.reflecty.gson.adapter.ObjectTypeAdapter;
+import com.heaven7.java.reflecty.gson.adapter.*;
 
 public final class GsonATM extends AbstractTypeAdapterManager<JsonWriter, JsonReader> {
+
+    public GsonATM() {
+        registerAdapters(byte.class, Byte.class);
+        registerAdapters(short.class, Short.class);
+        registerAdapters(int.class, Integer.class);
+        registerAdapters(long.class, Long.class);
+        registerAdapters(float.class, Float.class);
+        registerAdapters(double.class, Double.class);
+        registerAdapters(boolean.class, Boolean.class);
+
+        CharAdapter ca = new CharAdapter();
+        registerBasicTypeAdapter(char.class, ca);
+        registerBasicTypeAdapter(Character.class, ca);
+
+        registerBasicTypeAdapter(String.class, new StringAdapter());
+    }
+
+    private <T> void registerAdapters(Class<?> base, Class<T> wrap){
+        BaseCommonAdapter<T> byteAdapter = new BaseCommonAdapter<>(wrap);
+        registerBasicTypeAdapter(base, byteAdapter);
+        registerBasicTypeAdapter(wrap, byteAdapter);
+    }
 
     @Override
     public TypeAdapter<JsonWriter, JsonReader> createCollectionTypeAdapter(Class<?> collectionClass, TypeAdapter<JsonWriter, JsonReader> componentAdapter) {

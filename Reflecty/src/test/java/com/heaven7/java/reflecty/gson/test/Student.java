@@ -1,9 +1,15 @@
 package com.heaven7.java.reflecty.gson.test;
 
 import com.google.gson.Gson;
+import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.Since;
+import com.google.gson.annotations.Until;
 
 public class Student extends Person{
 
+    @Since(1.0)
+    @Until(2.0)
+    @SerializedName("_id")
     private String id;
 
     public String getId() {

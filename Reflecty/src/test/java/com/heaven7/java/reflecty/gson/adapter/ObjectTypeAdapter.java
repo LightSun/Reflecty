@@ -37,13 +37,9 @@ public class ObjectTypeAdapter extends GsonAdapter {
 
     @Override
     public int write(JsonWriter sink, Object obj) throws IOException {
-        //dynamic first
-        TypeAdapter<JsonWriter, JsonReader> ta = mTAM.getTypeAdapter(mClazz, mApplyVersion);
-        if(ta != null){
-            ta.write(sink, obj);
-        }
+        //dynamic first moved to TypeNode
         //annotation second
-        ta = sReflecty.getTypeAdapter(mClazz);
+        TypeAdapter<JsonWriter, JsonReader> ta = sReflecty.getTypeAdapter(mClazz);
         if(ta != null){
             ta.write(sink, obj);
         }else {
@@ -67,13 +63,9 @@ public class ObjectTypeAdapter extends GsonAdapter {
 
     @Override
     public Object read(JsonReader source) throws IOException {
-        //dynamic first
-        TypeAdapter<JsonWriter, JsonReader> ta = mTAM.getTypeAdapter(mClazz, mApplyVersion);
-        if(ta != null){
-            return ta.read(source);
-        }
+        //dynamic first moved to TypeNode
         //annotation second
-        ta = sReflecty.getTypeAdapter(mClazz);
+        TypeAdapter<JsonWriter, JsonReader> ta = sReflecty.getTypeAdapter(mClazz);
         if(ta != null){
             return ta.read(source);
         }

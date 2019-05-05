@@ -29,7 +29,7 @@ public final class BaseCommonAdapter<T> extends GsonBasicAdapter {
             }else if(obj instanceof Boolean){
                 sink.value((Boolean) obj);
             }else {
-                throw new UnsupportedOperationException();
+                throw new UnsupportedOperationException("maybe your type is not matched with actual type.");
             }
         }
         return -1;

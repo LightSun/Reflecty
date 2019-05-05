@@ -5,6 +5,7 @@ import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.heaven7.java.reflecty.*;
 import com.heaven7.java.reflecty.gson.JsonObjectAdapter;
+import com.heaven7.java.reflecty.gson.member.GsonFieldProxy;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -45,8 +46,7 @@ public class GsonReflectyDelegate implements ReflectyDelegate<JsonAdapter, Seria
 
     @Override
     public FieldProxy createFieldProxy(Class<?> owner, JsonAdapter classDesc, Field field, String property, SerializedName fn) {
-        //TODO
-        return new FieldProxy(owner, field, property);
+        return new GsonFieldProxy(owner, field, property);
     }
 
     @Override
