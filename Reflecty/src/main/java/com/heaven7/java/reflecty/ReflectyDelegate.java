@@ -23,13 +23,14 @@ import java.util.List;
 
 /**
  * the reflecty deleagte
+ * @param <PR> the perform result for reflect on target {@linkplain Class}.
  * @param <CD> the annotation which is set on class , often is the class description. can be used for field or method annotation.
  * @param <F> the field annotation
  * @param <M> the method annotation
  * @param <I> the inherit annotation
  * @author heaven7
  */
-public interface ReflectyDelegate<CD extends Annotation,
+public interface ReflectyDelegate<PR, CD extends Annotation,
         F extends Annotation, M extends Annotation, I extends Annotation> {
 
     /**
@@ -117,11 +118,9 @@ public interface ReflectyDelegate<CD extends Annotation,
     boolean shouldIncludeMethod(Method method, M methodAnno, boolean isInherit);
 
     /**
-     *
-     * @param clazz
-     * @param <Out>
-     * @param <In>
-     * @return
+     * perform reflect on target class.
+     * @param clazz the class
+     * @return the perform reflect result. can be {@linkplain TypeAdapter} and etc.
      */
-    <Out, In> TypeAdapter<Out,In> getTypeAdapter(Class<?> clazz);
+    PR performReflectClass(Class<?> clazz);
 }

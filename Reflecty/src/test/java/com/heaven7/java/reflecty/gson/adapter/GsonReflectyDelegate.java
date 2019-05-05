@@ -3,6 +3,8 @@ package com.heaven7.java.reflecty.gson.adapter;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import com.heaven7.java.reflecty.*;
 import com.heaven7.java.reflecty.gson.JsonObjectAdapter;
 import com.heaven7.java.reflecty.gson.member.GsonFieldProxy;
@@ -11,7 +13,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 
-public class GsonReflectyDelegate implements ReflectyDelegate<JsonAdapter, SerializedName, Deprecated, Expose> {
+public class GsonReflectyDelegate implements ReflectyDelegate<TypeAdapter<JsonWriter, JsonReader>,
+        JsonAdapter, SerializedName, Deprecated, Expose> {
 
     @Override
     public void sort(List<MemberProxy> out) {
@@ -60,14 +63,14 @@ public class GsonReflectyDelegate implements ReflectyDelegate<JsonAdapter, Seria
         return false;
     }
 
-    @Override @SuppressWarnings("unchecked")
-    public <Out, In> TypeAdapter<Out, In> getTypeAdapter(Class<?> clazz) {
+    @Override
+    public TypeAdapter<JsonWriter, JsonReader> performReflectClass(Class<?> clazz) {
         JsonAdapter ja = clazz.getAnnotation(JsonAdapter.class);
         if(ja != null){
             try {
-                return (TypeAdapter<Out, In>) new JsonObjectAdapter((com.google.gson.TypeAdapter<Object>) ja.value().newInstance());
+                return new JsonObjectAdapter((com.google.gson.TypeAdapter<Object>) ja.value().newInstance());
             } catch (Exception e) {
-               throw new RuntimeException(e);
+                throw new RuntimeException(e);
             }
         }
         return null;

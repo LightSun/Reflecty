@@ -26,7 +26,7 @@ import java.lang.annotation.Annotation;
  * @param <I> the inherit annotation
  * @author heaven7
  */
-public final class ReflectyBuilder<CD extends Annotation,F extends Annotation,
+public final class ReflectyBuilder<PR, CD extends Annotation,F extends Annotation,
         M extends Annotation, I extends Annotation>  {
 
     Class<CD> clazzObject;
@@ -34,32 +34,32 @@ public final class ReflectyBuilder<CD extends Annotation,F extends Annotation,
     Class<M> clazzMethod;
     Class<I> clazzInherit;
 
-    ReflectyDelegate<CD, F, M, I> mDelegate;
+    ReflectyDelegate<PR, CD, F, M, I> mDelegate;
 
-    public ReflectyBuilder<CD ,F, M, I> classAnnotation(Class<CD> clazz){
+    public ReflectyBuilder<PR, CD, F, M, I> classAnnotation(Class<CD> clazz){
         this.clazzObject = clazz;
         return this;
     }
-    public ReflectyBuilder<CD ,F, M, I> fieldAnnotation(Class<F> clazz){
+    public ReflectyBuilder<PR, CD, F, M, I> fieldAnnotation(Class<F> clazz){
         this.clazzField = clazz;
         return this;
     }
-    public ReflectyBuilder<CD ,F, M, I> methodAnnotation(Class<M> clazz){
+    public ReflectyBuilder<PR, CD, F, M, I> methodAnnotation(Class<M> clazz){
         this.clazzMethod = clazz;
         return this;
     }
-    public ReflectyBuilder<CD ,F, M, I> inheritAnnotation(Class<I> clazz){
+    public ReflectyBuilder<PR, CD, F, M, I> inheritAnnotation(Class<I> clazz){
         this.clazzInherit = clazz;
         return this;
     }
-    public ReflectyBuilder<CD ,F, M, I> delegate(ReflectyDelegate<CD, F, M, I> delegate){
+    public ReflectyBuilder<PR, CD, F, M, I> delegate(ReflectyDelegate<PR,CD, F, M, I> delegate){
         this.mDelegate = delegate;
         return this;
     }
-    public Reflecty<CD ,F, M, I> build(){
+    public Reflecty<PR, CD, F, M, I> build(){
         if(clazzField == null){
             throw new IllegalStateException("the field annotation class can't be null");
         }
-        return new Reflecty<CD ,F, M, I>(this);
+        return new Reflecty<PR, CD, F, M, I>(this);
     }
 }

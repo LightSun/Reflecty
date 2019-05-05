@@ -25,27 +25,28 @@ import java.util.WeakHashMap;
 
 /**
  * the reflecty used to quick reflect field and method members.
+ * @param <PR> the perform result for reflect on target {@linkplain Class}.
  * @param <CD> the annotation which is set on class , often is the class description. can be used for field or method annotation.
  * @param <F> the field annotation which is set on field
  * @param <M> the method annotation which is set on method
  * @param <I> the inherit annotation which can be set on field or method.
  * @author heaven7
  */
-public final class Reflecty<CD extends Annotation,F extends Annotation,
+public final class Reflecty<PR, CD extends Annotation,F extends Annotation,
         M extends Annotation, I extends Annotation> {
 
     private final WeakHashMap<Class<?>, List<MemberProxy>> mCache;
     // share cache for sub class .
     private final WeakHashMap<Class<?>, List<MemberProxy>> mShareCache;
 
-    private final ReflectyDelegate<CD,F, M, I> mDelegate;
+    private final ReflectyDelegate<PR,CD,F, M, I> mDelegate;
     private final Class<CD> mClazzClass;
     private final Class<F> mClazzField;
     private final Class<M> mClazzMethod;
     private final Class<I> mClazzIherit;
 
     @SuppressWarnings("unchecked")
-    /*public*/ Reflecty(ReflectyBuilder<CD, F, M, I> builder) {
+    /*public*/ Reflecty(ReflectyBuilder<PR, CD, F, M, I> builder) {
         this.mDelegate = builder.mDelegate;
         this.mClazzClass = builder.clazzObject;
         this.mClazzField = builder.clazzField;
@@ -74,8 +75,8 @@ public final class Reflecty<CD extends Annotation,F extends Annotation,
         }
         return memberProxies;
     }
-    public <Out, In> TypeAdapter<Out, In> getTypeAdapter(Class<?> clazz){
-        return mDelegate.getTypeAdapter(clazz);
+    public PR performReflectClass(Class<?> clazz){
+        return mDelegate.performReflectClass(clazz);
     }
     //------------------------------------- private ----------------------------------------------
 

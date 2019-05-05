@@ -16,10 +16,10 @@ import static com.heaven7.java.reflecty.utils.TypeNodeUtils.getTypeAdapter;
 
 public class ObjectTypeAdapter extends GsonAdapter {
 
-    private static final Reflecty<JsonAdapter, SerializedName, Deprecated, Expose> sReflecty;
+    private static final Reflecty<TypeAdapter<JsonWriter, JsonReader>,JsonAdapter, SerializedName, Deprecated, Expose> sReflecty;
 
     static {
-        sReflecty = new ReflectyBuilder<JsonAdapter, SerializedName, Deprecated, Expose>()
+        sReflecty = new ReflectyBuilder<TypeAdapter<JsonWriter, JsonReader>,JsonAdapter, SerializedName, Deprecated, Expose>()
                 .classAnnotation(JsonAdapter.class)
                 .fieldAnnotation(SerializedName.class)
                 .methodAnnotation(null)
@@ -42,7 +42,7 @@ public class ObjectTypeAdapter extends GsonAdapter {
     public int write(JsonWriter sink, Object obj) throws IOException {
         //dynamic first moved to TypeNode
         //annotation second
-        TypeAdapter<JsonWriter, JsonReader> ta = sReflecty.getTypeAdapter(mClazz);
+        TypeAdapter<JsonWriter, JsonReader> ta = sReflecty.performReflectClass(mClazz);
         if(ta != null){
             ta.write(sink, obj);
         }else {
@@ -66,9 +66,9 @@ public class ObjectTypeAdapter extends GsonAdapter {
 
     @Override
     public Object read(JsonReader source) throws IOException {
-        //dynamic first moved to TypeNode
-        //annotation second
-        TypeAdapter<JsonWriter, JsonReader> ta = sReflecty.getTypeAdapter(mClazz);
+        //1, dynamic first moved to TypeNode
+        //2, runtime annotation
+        TypeAdapter<JsonWriter, JsonReader> ta = sReflecty.performReflectClass(mClazz);
         if(ta != null){
             return ta.read(source);
         }
