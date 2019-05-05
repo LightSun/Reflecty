@@ -67,6 +67,13 @@ public final class Reflecty<PR, CD extends Annotation,F extends Annotation,
             getMemberProxies(clazz);
         }
     }
+
+    /**
+     * get the member proxies for target self-object. this is used for self-object.
+     * exclude any collection and map class.
+     * @param clazz the class
+     * @return the member proxy list
+     */
     public List<MemberProxy> getMemberProxies(Class<?> clazz) {
         List<MemberProxy> memberProxies = mCache.get(clazz);
         if(memberProxies == null){
@@ -75,6 +82,12 @@ public final class Reflecty<PR, CD extends Annotation,F extends Annotation,
         }
         return memberProxies;
     }
+
+    /**
+     * perform reflect only on the class without fields and methods
+     * @param clazz the class to reflect
+     * @return the perform result
+     */
     public PR performReflectClass(Class<?> clazz){
         return mDelegate.performReflectClass(clazz);
     }
