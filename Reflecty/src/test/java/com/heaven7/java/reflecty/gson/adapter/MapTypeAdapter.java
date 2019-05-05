@@ -32,6 +32,7 @@ public final class MapTypeAdapter extends GsonAdapter {
         if(mKeyAdapter instanceof BasicTypeAdapter){
             TypeAdapter<JsonWriter, JsonReader> key = ((BasicTypeAdapter) mKeyAdapter).getNameTypeAdapter();
             Set<Map.Entry> set = map.entrySet();
+            //if mKeyAdapter is not base type. it doesn't support nested object. (Gson limit)
             sink.beginObject();
             for (Map.Entry en : set){
                 key.write(sink, en.getKey());
