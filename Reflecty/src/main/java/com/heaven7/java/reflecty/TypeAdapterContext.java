@@ -16,11 +16,22 @@
  */
 package com.heaven7.java.reflecty;
 
+import java.util.Collection;
+import java.util.Map;
+
 /**
  * the type adapter context
  * @author heaven7
  */
 public interface TypeAdapterContext {
+
+
+    /**
+     * create object for target class
+     * @param clazz the class
+     * @return the object
+     */
+    Object newInstance(Class<?> clazz);
 
     /**
      * indicate the class is map or not
@@ -28,4 +39,26 @@ public interface TypeAdapterContext {
      * @return true if the class is map
      */
     boolean isMap(Class<?> type);
+
+    /**
+     * create map from target 'Map' class. eg: {@linkplain com.heaven7.java.base.util.SparseArray}.
+     * @param clazz the class which from 'Map'.
+     * @return the map
+     */
+    Map createMap(Class<?> clazz);
+
+    /**
+     * get the map from target object . obj can be normal map or {@linkplain com.heaven7.java.base.util.SparseArrayDelegate}
+     * and etc.
+     * @param obj the object type of 'map'
+     * @return the transformed map
+     */
+    Map getMap(Object obj);
+
+    /**
+     * create collection from target class name
+     * @param clazz the class which often extend collection. like list, set and etc.
+     * @return the collection
+     */
+    Collection createCollection(Class<?> clazz);
 }

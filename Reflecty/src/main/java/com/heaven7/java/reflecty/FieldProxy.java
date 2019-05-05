@@ -33,6 +33,9 @@ public class FieldProxy extends BaseMemberProxy implements MemberProxy {
         this.property = property;
     }
 
+    public Field getField() {
+        return field;
+    }
     @Override
     public String getPropertyName() {
         return property;

@@ -74,7 +74,9 @@ public final class Reflecty<CD extends Annotation,F extends Annotation,
         }
         return memberProxies;
     }
-
+    public <Out, In> TypeAdapter<Out, In> getTypeAdapter(Class<?> clazz){
+        return mDelegate.getTypeAdapter(clazz);
+    }
     //------------------------------------- private ----------------------------------------------
 
     private List<MemberProxy> getMemberProxies1(Class<?> clazz) {

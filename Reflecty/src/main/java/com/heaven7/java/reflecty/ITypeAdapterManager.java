@@ -41,6 +41,14 @@ public interface ITypeAdapterManager<Out, In> {
     TypeAdapter<Out, In> getTypeAdapter(TypeNode genericNode, float applyVersion);
 
      /**
+      * get the type adapter. this method is similar as {@linkplain #getTypeAdapter(TypeNode, float)}.
+      * @param type the type
+      * @param applyVersion the version to apply
+      * @return the type adapter
+      */
+    TypeAdapter<Out, In> getTypeAdapter(Type type, float applyVersion);
+
+     /**
       * register type adapter
       * @param type the type
       * @param version the start version of type

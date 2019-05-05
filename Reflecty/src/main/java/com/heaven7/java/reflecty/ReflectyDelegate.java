@@ -115,4 +115,13 @@ public interface ReflectyDelegate<CD extends Annotation,
      * @return true if the method should be include
      */
     boolean shouldIncludeMethod(Method method, M methodAnno, boolean isInherit);
+
+    /**
+     *
+     * @param clazz
+     * @param <Out>
+     * @param <In>
+     * @return
+     */
+    <Out, In> TypeAdapter<Out,In> getTypeAdapter(Class<?> clazz);
 }

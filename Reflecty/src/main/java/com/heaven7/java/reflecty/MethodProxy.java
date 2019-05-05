@@ -36,6 +36,12 @@ public class MethodProxy extends BaseMemberProxy implements MemberProxy {
         this.property = property;
     }
 
+    public Method getGetMethod() {
+        return get;
+    }
+    public Method getSetMethod() {
+        return set;
+    }
     @Override
     public String getPropertyName() {
         return property;
