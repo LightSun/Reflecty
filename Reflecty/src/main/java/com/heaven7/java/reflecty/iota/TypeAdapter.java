@@ -14,9 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.heaven7.java.reflecty;
+package com.heaven7.java.reflecty.iota;
 
-import com.heaven7.java.reflecty.utils.TypeNodeUtils;
+import com.heaven7.java.reflecty.$ReflectyTypes;
+import com.heaven7.java.reflecty.TypeToken;
+import com.heaven7.java.reflecty.utils.IotaUtils;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -52,7 +54,7 @@ public abstract class TypeAdapter<Out,In> {
      * @return the type adapter
      */
     public static <Out,In> TypeAdapter<Out,In> ofType(Type type, ITypeAdapterManager<Out,In> tam, float applyVersion){
-        return TypeNodeUtils.getTypeAdapter($ReflectyTypes.getTypeNode(type), tam, applyVersion);
+        return IotaUtils.getTypeAdapter($ReflectyTypes.getTypeNode(type), tam, applyVersion);
     }
 
     /**

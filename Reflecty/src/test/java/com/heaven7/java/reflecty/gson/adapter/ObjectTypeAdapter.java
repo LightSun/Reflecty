@@ -7,11 +7,13 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.heaven7.java.reflecty.*;
 import com.heaven7.java.reflecty.gson.member.StartEndMemberProxy;
+import com.heaven7.java.reflecty.iota.ITypeAdapterManager;
+import com.heaven7.java.reflecty.iota.TypeAdapter;
 
 import java.io.IOException;
 import java.util.List;
 
-import static com.heaven7.java.reflecty.utils.TypeNodeUtils.getTypeAdapter;
+import static com.heaven7.java.reflecty.utils.IotaUtils.getTypeAdapter;
 
 public class ObjectTypeAdapter extends GsonAdapter {
 
@@ -31,7 +33,7 @@ public class ObjectTypeAdapter extends GsonAdapter {
     private final Class<?> mClazz;
     private final float mApplyVersion;
 
-    public ObjectTypeAdapter(ITypeAdapterManager<JsonWriter, JsonReader> mTAM,  Class<?> mClazz, float mApplyVersion) {
+    public ObjectTypeAdapter(ITypeAdapterManager<JsonWriter, JsonReader> mTAM, Class<?> mClazz, float mApplyVersion) {
         this.mTAM = mTAM;
         this.mApplyVersion = mApplyVersion;
         this.mClazz = mClazz;

@@ -1,4 +1,6 @@
-package com.heaven7.java.reflecty;
+package com.heaven7.java.reflecty.iota;
+
+import com.heaven7.java.reflecty.MemberProxy;
 
 /**
  * the basic type adapter which used to write and read message members.

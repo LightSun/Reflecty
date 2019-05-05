@@ -8,6 +8,7 @@ import com.google.gson.stream.JsonWriter;
 import com.heaven7.java.reflecty.*;
 import com.heaven7.java.reflecty.gson.JsonObjectAdapter;
 import com.heaven7.java.reflecty.gson.member.GsonFieldProxy;
+import com.heaven7.java.reflecty.iota.TypeAdapter;
 import com.heaven7.java.reflecty.member.FieldProxy;
 import com.heaven7.java.reflecty.member.MethodProxy;
 

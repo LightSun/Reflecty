@@ -5,9 +5,9 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonWriter;
 import com.heaven7.java.base.util.SparseArrayDelegate;
 import com.heaven7.java.base.util.SparseFactory;
-import com.heaven7.java.reflecty.TypeAdapter;
 import com.heaven7.java.reflecty.TypeToken;
 import com.heaven7.java.reflecty.gson.GsonATM;
+import com.heaven7.java.reflecty.iota.TypeAdapter;
 import org.junit.Assert;
 
 import java.io.StringWriter;

@@ -4,11 +4,11 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.heaven7.java.base.util.SparseArrayDelegate;
-import com.heaven7.java.reflecty.TypeAdapter;
 import com.heaven7.java.reflecty.TypeToken;
 import com.heaven7.java.reflecty.gson.JsonObjectAdapter;
 import com.heaven7.java.reflecty.gson.ReflectyTypeAdapterFactory;
 import com.heaven7.java.reflecty.gson.SparseArrayAdapter;
+import com.heaven7.java.reflecty.iota.TypeAdapter;
 import org.junit.Assert;
 import org.junit.Test;
 

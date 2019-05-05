@@ -2,10 +2,10 @@ package com.heaven7.java.reflecty.gson.adapter;
 
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.heaven7.java.reflecty.BasicTypeAdapter;
-import com.heaven7.java.reflecty.TypeAdapter;
 import com.heaven7.java.reflecty.ReflectyContext;
 import com.heaven7.java.reflecty.Wrapper;
+import com.heaven7.java.reflecty.iota.BasicTypeAdapter;
+import com.heaven7.java.reflecty.iota.TypeAdapter;
 
 import java.io.IOException;
 import java.util.Map;

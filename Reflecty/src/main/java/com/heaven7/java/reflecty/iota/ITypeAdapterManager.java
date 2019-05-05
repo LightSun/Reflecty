@@ -14,7 +14,10 @@
   * See the License for the specific language governing permissions and
   * limitations under the License.
   */
- package com.heaven7.java.reflecty;
+ package com.heaven7.java.reflecty.iota;
+
+ import com.heaven7.java.reflecty.ReflectyContext;
+ import com.heaven7.java.reflecty.TypeNode;
 
  import java.lang.reflect.Type;
  import java.util.Map;

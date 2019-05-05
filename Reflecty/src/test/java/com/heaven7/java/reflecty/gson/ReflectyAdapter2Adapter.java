@@ -9,9 +9,9 @@ import java.io.IOException;
 
 public class ReflectyAdapter2Adapter<T> extends TypeAdapter<T> {
 
-    private final com.heaven7.java.reflecty.TypeAdapter<JsonWriter, JsonReader> mta;
+    private final com.heaven7.java.reflecty.iota.TypeAdapter<JsonWriter, JsonReader> mta;
 
-    public ReflectyAdapter2Adapter(com.heaven7.java.reflecty.TypeAdapter<JsonWriter, JsonReader> mta) {
+    public ReflectyAdapter2Adapter(com.heaven7.java.reflecty.iota.TypeAdapter<JsonWriter, JsonReader> mta) {
         this.mta = mta;
     }
     @Override

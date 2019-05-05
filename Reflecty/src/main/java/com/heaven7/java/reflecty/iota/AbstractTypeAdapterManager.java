@@ -1,8 +1,12 @@
-package com.heaven7.java.reflecty;
+package com.heaven7.java.reflecty.iota;
 
 
 import com.heaven7.java.base.util.SparseArrayDelegate;
 import com.heaven7.java.base.util.SparseFactory;
+import com.heaven7.java.reflecty.$ReflectyTypes;
+import com.heaven7.java.reflecty.ReflectyContext;
+import com.heaven7.java.reflecty.SimpleReflectyContext;
+import com.heaven7.java.reflecty.TypeNode;
 import com.heaven7.java.reflecty.member.BaseMemberProxy;
 import com.heaven7.java.reflecty.utils.Pair;
 
@@ -17,11 +21,11 @@ import java.util.Map;
  * @param <In> the input type ,used to read
  * @author heaven7
  */
-public abstract class AbstractTypeAdapterManager<Out, In> implements ITypeAdapterManager<Out, In>{
+public abstract class AbstractTypeAdapterManager<Out, In> implements ITypeAdapterManager<Out, In> {
 
     private final ReflectyContext context;
 
-    private final Map<TypeNode, Pair<Float,TypeAdapter<Out, In>>> mAdapterMap = new HashMap<>();
+    private final Map<TypeNode, Pair<Float, TypeAdapter<Out, In>>> mAdapterMap = new HashMap<>();
     private final SparseArrayDelegate<TypeAdapter<Out, In>> mBaseAdapterMap
             = SparseFactory.newSparseArray(10);
 
