@@ -123,7 +123,7 @@ public interface ReflectyDelegate<PR, CD extends Annotation,
     /**
      * perform reflect on target class.
      * @param clazz the class
-     * @return the perform reflect result. can be {@linkplain TypeAdapter} and etc.
+     * @return the perform reflect result. can be Type-Adapter and etc.
      */
     PR performReflectClass(Class<?> clazz);
 }
