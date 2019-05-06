@@ -173,7 +173,7 @@ public final class Reflecty<PR, CD extends Annotation,F extends Annotation,
                     if(!mDelegate.shouldIncludeMethod(method, mm, isInherit)){
                         continue;
                     }
-                    if (mDelegate.isGetMethod(mm)) {
+                    if (mDelegate.isGetMethod(method, mm)) {
                         //get must be no arguments
                         if(method.getParameterTypes().length > 0){
                             throw new IllegalStateException("as 'get' method for @MethodMember must have no arguments.");

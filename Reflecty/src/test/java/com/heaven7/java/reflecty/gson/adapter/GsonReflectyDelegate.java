@@ -33,9 +33,14 @@ public class GsonReflectyDelegate implements ReflectyDelegate<TypeAdapter<JsonWr
     }
 
     @Override
+    public boolean isGetMethod(Method method, Deprecated mn) {
+        return false;
+    }
+    @Override
     public boolean isGetMethod(Deprecated mn) {
         return false;
     }
+
     @Override
     public String getPropertyFromMethod(Method method, Deprecated mn) {
         return null;

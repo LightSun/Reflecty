@@ -59,9 +59,22 @@ public interface ReflectyDelegate<PR, CD extends Annotation,
 
     /**
      * indicate the method annotation is get method or not
+     *
+     * @param method the method
+     * @param mn the method annotation object
+     * @return true if is get. false otherwise
+     * @since 1.0.2
+     */
+    boolean isGetMethod(Method method, M mn);
+
+    /**
+     * <p>Use {@linkplain #isGetMethod(Method, Annotation)} instead.</p>
+     * indicate the method annotation is get method or not
+     *
      * @param mn the method annotation object
      * @return true if is get. false otherwise
      */
+    @Deprecated
     boolean isGetMethod(M mn);
     /**
      * get the property from method
