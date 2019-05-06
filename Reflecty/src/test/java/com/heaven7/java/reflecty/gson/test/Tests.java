@@ -5,7 +5,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.heaven7.java.base.util.SparseArrayDelegate;
 import com.heaven7.java.reflecty.TypeToken;
-import com.heaven7.java.reflecty.gson.JsonObjectAdapter;
+import com.heaven7.java.reflecty.gson.JsonAdapter2Adapter;
 import com.heaven7.java.reflecty.gson.ReflectyTypeAdapterFactory;
 import com.heaven7.java.reflecty.gson.SparseArrayAdapter;
 import com.heaven7.java.reflecty.iota.TypeAdapter;
@@ -46,7 +46,7 @@ public class Tests extends BaseTest {
         s.setName("heaven7");
         s.setId(5353+"");
 
-        mAtm.registerTypeAdapter(Student.class, 1.0f, new JsonObjectAdapter(new Person.Adapter0()));
+        mAtm.registerTypeAdapter(Student.class, 1.0f, new JsonAdapter2Adapter(new Person.Adapter0()));
         GsonBuilder builder = new GsonBuilder().registerTypeAdapter(Student.class, new Person.Adapter0());
         testBase(builder, s, 1.0f);
     }
@@ -118,7 +118,7 @@ public class Tests extends BaseTest {
     public void testTypeAdapterFactory() throws Exception{
         SparseArrayDelegate<String> sa = createSparseArray();
         String s = new GsonBuilder()
-                .registerTypeAdapterFactory(new ReflectyTypeAdapterFactory(mAtm, 1.0f))
+                .registerTypeAdapterFactory(new ReflectyTypeAdapterFactory(mAtm, 1.0f)) //if not register. result is empty.
                 .setVersion(1.0f)
                 .create()
                 .toJson(sa, new TypeToken<SparseArrayDelegate<String>>(){}.getType()); // must assign type.

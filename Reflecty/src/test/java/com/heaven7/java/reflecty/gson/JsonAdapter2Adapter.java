@@ -7,12 +7,12 @@ import com.heaven7.java.reflecty.gson.adapter.GsonAdapter;
 
 import java.io.IOException;
 
-public class JsonObjectAdapter extends GsonAdapter {
+public class JsonAdapter2Adapter extends GsonAdapter {
 
     private final TypeAdapter<Object> ta;
 
     @SuppressWarnings("unchecked")
-    public JsonObjectAdapter(TypeAdapter<?> ta) {
+    public JsonAdapter2Adapter(TypeAdapter<?> ta) {
         this.ta = (TypeAdapter<Object>) ta;
     }
 

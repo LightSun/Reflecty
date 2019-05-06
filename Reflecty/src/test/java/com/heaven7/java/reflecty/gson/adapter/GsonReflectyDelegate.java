@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 import com.heaven7.java.reflecty.*;
-import com.heaven7.java.reflecty.gson.JsonObjectAdapter;
+import com.heaven7.java.reflecty.gson.JsonAdapter2Adapter;
 import com.heaven7.java.reflecty.gson.member.GsonFieldProxy;
 import com.heaven7.java.reflecty.iota.TypeAdapter;
 import com.heaven7.java.reflecty.member.FieldProxy;
@@ -71,7 +71,7 @@ public class GsonReflectyDelegate implements ReflectyDelegate<TypeAdapter<JsonWr
         JsonAdapter ja = clazz.getAnnotation(JsonAdapter.class);
         if(ja != null){
             try {
-                return new JsonObjectAdapter((com.google.gson.TypeAdapter<Object>) ja.value().newInstance());
+                return new JsonAdapter2Adapter((com.google.gson.TypeAdapter<Object>) ja.value().newInstance());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
