@@ -38,7 +38,7 @@ publish {
     userOrg = 'lightsun' //bintray user name
     groupId = 'com.heaven7.java.reflecty'
     artifactId = 'Reflecty'
-    publishVersion = '1.0.0'
+    publishVersion = '1.0.1'
     desc = 'this is a super framework which is used for reflect, serialize, deserialize data.'
     website = 'https://github.com/LightSun/Reflecty'
 }
