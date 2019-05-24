@@ -82,4 +82,6 @@ public abstract class AbstractTypeAdapterManager<Out, In> implements ITypeAdapte
     public TypeAdapter<Out, In> getElementAdapter(Class<?> type) {
         return null;
     }
+
+
 }

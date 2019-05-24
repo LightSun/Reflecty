@@ -66,7 +66,7 @@ public final class IotaUtils {
                         key = delegate.getKeyAdapter(type);
                         value = delegate.getValueAdapter(type);
                         break;
-                    //often key type can be fixed. but value not. like sparse array.
+                    //often key type can be fixed. but value type not. like sparse array.
                     case 1:
                         key = delegate.getKeyAdapter(type);
                         value = getTypeAdapter(node.getSubNode(0), delegate, applyVersion);
