@@ -12,5 +12,5 @@
 
 - 4, 更多特性。请细看demo.
 
-## Used
-[ReflectyIo](https://github.com/LightSun/ReflectyIo)
+## 使用此库的库
+[LightSun/ReflectyIo](https://github.com/LightSun/ReflectyIo)
