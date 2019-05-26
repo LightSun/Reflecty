@@ -29,7 +29,7 @@
   * @param <In>  the input type ,used to read
   * @author heaven7
   */
- public interface ITypeAdapterManager<Out, In> {
+ public interface ITypeAdapterManager<Out, In> extends BasicTypeAdapterProvider<Out, In>{
 
      /**
       * get the type adapter context

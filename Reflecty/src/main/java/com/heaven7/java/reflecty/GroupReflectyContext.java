@@ -10,26 +10,22 @@ import java.util.Map;
  * @author heaven7
  * @since 1.0.3
  */
-public class MultiReflectyContext implements ReflectyContext {
+public class GroupReflectyContext implements ReflectyContext {
 
     private final List<ReflectyContext> contexts;
 
-    public MultiReflectyContext(ReflectyContext... contexts) {
+    public GroupReflectyContext(ReflectyContext... contexts) {
         this(Arrays.asList(contexts));
     }
-    public MultiReflectyContext(List<ReflectyContext> contexts) {
+    public GroupReflectyContext(List<ReflectyContext> contexts) {
         this.contexts = contexts;
     }
 
     @Override
     public Object newInstance(Class<?> clazz) {
-        Object obj = null;
+        Object obj;
         for(ReflectyContext context : contexts){
-            try {
-                obj = context.newInstance(clazz);
-            }catch (Exception e){
-                //ignore
-            }
+            obj = context.newInstance(clazz);
             if(obj != null){
                 return obj;
             }
