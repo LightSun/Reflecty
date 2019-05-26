@@ -1,5 +1,4 @@
 apply plugin: 'java'
-apply plugin: 'com.novoda.bintray-release'
 
 buildscript {
     repositories {
@@ -7,7 +6,6 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.novoda:bintray-release:0.4.0'
     }
 }
 
@@ -26,19 +24,11 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
 
-    testCompile 'com.google.code.gson:gson:2.8.5'
-    testCompile 'com.squareup.okio:okio:2.2.2'
+    testImplementation 'com.google.code.gson:gson:2.8.5'
+    testImplementation 'com.squareup.okio:okio:2.2.2'
     
-    compile 'com.heaven7.java.base:Java-base:1.1.9'
+    implementation 'com.heaven7.java.base:Java-base:1.2.0'
 }
 
-publish {
-    userOrg = 'lightsun' //bintray user name
-    groupId = 'com.heaven7.java.reflecty'
-    artifactId = 'Reflecty'
-    publishVersion = '1.0.2'
-    desc = 'this is a super framework which is used for reflect, serialize, deserialize data.'
-    website = 'https://github.com/LightSun/Reflecty'
-}
