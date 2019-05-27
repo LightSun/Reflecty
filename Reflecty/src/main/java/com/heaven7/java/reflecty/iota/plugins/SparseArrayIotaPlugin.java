@@ -16,6 +16,8 @@ import java.util.Set;
  * the sparse array iota-plugin.
  * @param <Out> the output type
  * @param <In> the input type
+ * @since 1.0.4
+ * @author heaven7
  */
 public final class SparseArrayIotaPlugin<Out, In> extends MapIotaPlugin<Out, In>  {
 
