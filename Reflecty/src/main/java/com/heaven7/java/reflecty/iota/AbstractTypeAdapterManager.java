@@ -4,6 +4,7 @@ package com.heaven7.java.reflecty.iota;
 import com.heaven7.java.base.util.SparseArrayDelegate;
 import com.heaven7.java.base.util.SparseFactory;
 import com.heaven7.java.reflecty.*;
+import com.heaven7.java.reflecty.iota.plugins.SparseArrayIotaPlugin;
 import com.heaven7.java.reflecty.member.BaseMemberProxy;
 import com.heaven7.java.reflecty.utils.Pair;
 
@@ -33,6 +34,15 @@ public abstract class AbstractTypeAdapterManager<Out, In> implements ITypeAdapte
 
     public AbstractTypeAdapterManager(ReflectyContext context) {
         this.context = new GroupReflectyContext(mIotaPM, context);
+        registerCoreIotaPlugins();
+    }
+
+    /**
+     * register iota-plugin
+     * @since 1.0.4
+     */
+    protected void registerCoreIotaPlugins(){
+        mIotaPM.addIotaPlugin(new SparseArrayIotaPlugin<>());
     }
 
     /**
@@ -48,11 +58,6 @@ public abstract class AbstractTypeAdapterManager<Out, In> implements ITypeAdapte
     public final ReflectyContext getReflectyContext() {
         return context;
     }
-
-   /* @Override
-    public TypeAdapter<Out, In> getTypeAdapter(Type type, float applyVersion) {
-        return getTypeAdapter($ReflectyTypes.getTypeNode(type), applyVersion);
-    }*/
     @Override
     public TypeAdapter<Out, In> getTypeAdapter(TypeNode genericNode, float applyVersion) {
         Pair<Float, TypeAdapter<Out, In>> pair = mAdapterMap.get(genericNode);
@@ -76,9 +81,6 @@ public abstract class AbstractTypeAdapterManager<Out, In> implements ITypeAdapte
 
     @Override
     public TypeAdapter<Out, In> getKeyAdapter(Class<?> type) {
-        if(SparseArrayDelegate.class.isAssignableFrom(type)){
-            return getBasicTypeAdapter(int.class);
-        }
         return mIotaPM.getKeyAdapter(type);
     }
     @Override
