@@ -20,7 +20,6 @@ public class BaseTest  {
 
     protected GsonATM mAtm = new GsonATM();
 
-
     protected void testBase(Object obj) throws Exception{
         testBase(obj, 1.0f);
     }

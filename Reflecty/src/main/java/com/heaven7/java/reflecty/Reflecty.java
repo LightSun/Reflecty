@@ -153,11 +153,14 @@ public final class Reflecty<PR, CD extends Annotation,F extends Annotation,
                 if (mDelegate.shouldIncludeField(f, fieldDesc, isInherit)) {
                     FieldProxy proxy = mDelegate.createFieldProxy(clazz, clazzClass, f,
                             mDelegate.getPropertyFromField(f, fieldDesc), fieldDesc);
-                    out.add(proxy);
-                    //
-                    I inherit = mClazzIherit != null ? f.getAnnotation(mClazzIherit) : null;
-                    if (mDelegate.isAllowInherit(inherit)) {
-                        allowInherits.add(proxy);
+                    //ignore null
+                    if(proxy != null){
+                        out.add(proxy);
+                        //
+                        I inherit = mClazzIherit != null ? f.getAnnotation(mClazzIherit) : null;
+                        if (mDelegate.isAllowInherit(inherit)) {
+                            allowInherits.add(proxy);
+                        }
                     }
                 }
             }
@@ -230,7 +233,7 @@ public final class Reflecty<PR, CD extends Annotation,F extends Annotation,
             }
             //can't pair
             if(other == null){
-                System.out.println("MessageProtocal: can't make-pair for method. " + method.toString());
+                System.out.println("makePairMethods: can't make-pair for method. " + method.toString());
                 continue;
             }
             MethodProxy proxy;
@@ -244,11 +247,14 @@ public final class Reflecty<PR, CD extends Annotation,F extends Annotation,
                 proxy = mDelegate.createMethodProxy(owner, classDesc, other, method, property, mn);
                 main = other;
             }
-            out.add(proxy);
-            //share cache for sub class
-            I inherit = main.getAnnotation(mClazzIherit);
-            if(mDelegate.isAllowInherit(inherit)){
-                shareOut.add(proxy);
+            //ignore null
+            if(proxy != null){
+                out.add(proxy);
+                //share cache for sub class
+                I inherit = main.getAnnotation(mClazzIherit);
+                if(mDelegate.isAllowInherit(inherit)){
+                    shareOut.add(proxy);
+                }
             }
         }
     }

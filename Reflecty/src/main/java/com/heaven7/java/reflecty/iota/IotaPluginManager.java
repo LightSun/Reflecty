@@ -80,7 +80,7 @@ import java.util.Map;
         }
         return null;
     }
-    public TypeAdapter<Out, In> getElementAdapter(Class<?> type) {
+    public TypeAdapter<Out, In> getElementAdapter(Class<?> type ) {
         if(Predicates.isEmpty(mCollectionPlugins)){
             return null;
         }
