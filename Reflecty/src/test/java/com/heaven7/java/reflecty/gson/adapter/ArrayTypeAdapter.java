@@ -40,6 +40,7 @@ public final class ArrayTypeAdapter extends GsonAdapter {
             list.add(ele);
         }
         source.endArray();
+        //TODO base array
         return list.toArray((Object[]) Array.newInstance(mComponentClass, list.size()));
     }
 }
